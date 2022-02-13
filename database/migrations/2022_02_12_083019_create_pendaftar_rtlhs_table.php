@@ -15,7 +15,7 @@ class CreatePendaftarRtlhsTable extends Migration
     {
         Schema::create('pendaftar_rtlhs', function (Blueprint $table) {
             $table->id();
-            $table->string('no_kk');
+            $table->string('no_kk')->unique();
             $table->string('nik');
             $table->string('nama');
             $table->string('alamat');
