@@ -44,22 +44,22 @@
             <form action="{{route('updatedatakk')}}" method="post">
                 {{ csrf_field() }}
                 <div class="row">
-                    <div class="col-12 col-md-6 mb-3">
+                    <div class="col-12 col-lg-6 mb-3">
                         <label for="nokk">Nomor Kartu Keluarga</label>
                         <p class="form-control">{{$data[0]['no_kk']}}</p>
                         <input type="hidden" name="nokk" value="{{$data[0]['no_kk']}}">
                     </div>
-                    <div class="col-12 col-md-6 mb-3">
+                    <div class="col-12 col-lg-6 mb-3">
                         <label for="fotonik">Gambar Kartu Keluarga</label>
                         <a href="https://image.cermati.com/c_fill,fl_progressive,g_north_east,h_800,q_80,w_1200/vnqow2e6z2mbfmiob7w4.jpg" data-toggle="lightbox">
                             <img src="https://image.cermati.com/c_fill,fl_progressive,g_north_east,h_800,q_80,w_1200/vnqow2e6z2mbfmiob7w4.jpg" class="img-fluid img-thumbnail">
                         </a>
                     </div>
-                    <div class="col-12 col-md-6 mb-3">
-                        <label for="nik">Nomor Induk Kependudukan Kepala Keluarga</label>
+                    <div class="col-12 col-lg-6 mb-3">
+                        <label for="nik">NIK Kepala Keluarga</label>
                         <input class="form-control" type="text" id="nik" name="nik" value="{{$data[0]['nik']}}">
                     </div>
-                    <div class="col-12 col-md-6 mb-3">
+                    <div class="col-12 col-lg-6 mb-3">
                         <label for="fotonik">Gambar NIK Kepala Keluarga</label>
                         <a href="https://kta.partaiummat.id/assets/front/images/contoh-scanktp.png" id="fotonik" data-toggle="lightbox">
                             <img src="https://kta.partaiummat.id/assets/front/images/contoh-scanktp.png" class="img-fluid img-thumbnail">
