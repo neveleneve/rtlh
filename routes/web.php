@@ -13,6 +13,10 @@ Auth::routes([
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/dashboard', [App\Http\Controllers\RegisteredUserController::class, 'index'])->name('dashboard');
+
 Route::get('/data-rtlh', [App\Http\Controllers\RegisteredUserController::class, 'datartlh'])->name('datartlh');
+
 Route::get('/data-verifikasi', [App\Http\Controllers\RegisteredUserController::class, 'dataverifikasi'])->name('dataverifikasi');
+
 Route::get('/data-kk', [App\Http\Controllers\RegisteredUserController::class, 'datakk'])->name('datakk');
+Route::post('/data-kk/add', [App\Http\Controllers\RegisteredUserController::class, 'adddatakk'])->name('adddatakk');
