@@ -17,15 +17,25 @@ class UserSeeder extends Seeder
     {
         User::insert([
             [
-                'name' => "Andi Hanunggalang",
-                'username' => "andihanu",
+                'name' => "Admin PUPR",
+                'username' => "adminpupr",
                 'email_verified_at' => null,
-                'password' => Hash::make('andiandi123'),
+                'password' => Hash::make('admin'),
                 'level' => 0,
                 'remember_token' => null,
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
-            ]
+            ],
+            [
+                'name' => "Admin Tanjungpinang",
+                'username' => "admintanjungpinang",
+                'email_verified_at' => null,
+                'password' => Hash::make('admintanjungpinang'),
+                'level' => 1,
+                'remember_token' => null,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ],
         ]);
     }
 }

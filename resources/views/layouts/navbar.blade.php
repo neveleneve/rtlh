@@ -45,6 +45,11 @@
             </ul>
             <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
                 <hr class="dropdown-dividerd-lg-none d-inline">
+                @auth
+                <li class="nav-item">
+                    <a class="nav-link">{{ Auth::user()->name }}</a>
+                </li>
+                @endauth
                 <li class="nav-item @auth dropdown @endauth">
                     @guest
                     <a title="Log In" class="nav-link" aria-current="page" href="{{ route('login') }}" title="Log In">
