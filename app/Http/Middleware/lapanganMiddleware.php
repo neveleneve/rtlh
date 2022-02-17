@@ -17,7 +17,7 @@ class lapanganMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::user()->level == 0) {
+        if (Auth::user()->level == 1) {
             return $next($request);
         } else {
             return redirect(route('landing'))->with([

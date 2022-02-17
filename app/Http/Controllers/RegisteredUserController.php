@@ -17,24 +17,14 @@ class RegisteredUserController extends Controller
     }
     public function index()
     {
-        return view('admin.dashboard');
-    }
-
-    public function datartlh()
-    {
-        return view('admin.datartlh');
-    }
-
-    public function dataverifikasi()
-    {
-        return view('admin.dataverifikasi');
+        return view('generalauth.dashboard');
     }
 
     // Halaman Data KK
     public function datakk()
     {
         $data = pendaftar_rtlh::where('status', 0)->orderBy('created_at')->get();
-        return view('admin.datakk', [
+        return view('generalauth.datakk', [
             'data' => $data
         ]);
     }
@@ -76,17 +66,10 @@ class RegisteredUserController extends Controller
             'warna' => $warna,
         ]);
     }
-    public function verifdatakk($id)
-    {
-        $data = pendaftar_rtlh::where('no_kk', $id)->get();
-        return view('admin.datakk_verif', [
-            'data' => $data
-        ]);
-    }
     public function viewdatakk($id)
     {
         $data = pendaftar_rtlh::where('no_kk', $id)->get();
-        return view('admin.datakk_view', [
+        return view('generalauth.datakk_view', [
             'data' => $data
         ]);
     }
@@ -117,5 +100,13 @@ class RegisteredUserController extends Controller
             'pemberitahuan' => 'Berhasil mengubah data pengaju!',
             'warna' => 'success',
         ]);
+    }
+    public function setting()
+    {
+        # code...
+    }
+    public function bobot()
+    {
+        return view('generalauth.bobot');
     }
 }

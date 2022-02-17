@@ -46,8 +46,8 @@
             <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
                 <hr class="dropdown-dividerd-lg-none d-inline">
                 @auth
-                <li class="nav-item">
-                    <a class="nav-link">{{ Auth::user()->name }}</a>
+                <li class="nav-item d-none d-lg-inline">
+                    <a class="nav-link ">{{ Auth::user()->name }}</a>
                 </li>
                 @endauth
                 <li class="nav-item @auth dropdown @endauth">
@@ -59,7 +59,7 @@
                     @else
                     <a title="Informasi" class="nav-link dropdown-toggle" href="#" id="navUser" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fa fa-user-circle d-none d-lg-inline"></i>
-                        <span class="fw-bold d-lg-none d-inline">Akun</span>
+                        <span class="fw-bold d-lg-none d-inline">{{ Auth::user()->name }} | Akun</span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navUser">
                         <li>
