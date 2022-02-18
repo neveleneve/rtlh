@@ -6,7 +6,7 @@
     </li>
     <li class="nav-item">
         <a class="nav-link text-dark {{ Request::is('bobot*') ? 'active fw-bold' : null }}" href="{{ route('bobot') }}">
-            Bobot Penilaian RTLH
+            Bobot Penilaian
         </a>
     </li>
     <li class="nav-item">

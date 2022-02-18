@@ -6,18 +6,11 @@
 
 @section('content')
 <div class="container mt-5 pt-5">
-    <div class="row mb-3">
+    {{-- <div class="row mb-3">
         <div class="col-12">
             @include('layouts.nav')
         </div>
-    </div>
-    <div class="row mb-3">
-        <div class="col-12 col-md-3 d-grid gap-2">
-            <a class="btn btn-danger" href="{{route('datakk')}}">
-                <i class="fa fa-chevron-left"></i>&nbsp;&nbsp;Kembali
-            </a>
-        </div>
-    </div>
+    </div> --}}
     @if ($errors->any())
     <div class="row mb-3">
         <div class="col-12">
@@ -39,6 +32,11 @@
     </div>
     @endif
     <div class="card">
+        <div class="card-header border-bottom bg-dark">
+            <h3 class="h2 text-center text-white">
+                Data Pengaju RTLH
+            </h3>
+        </div>
         <div class="card-body">
             <form action="{{route('updatedatakk')}}" method="post">
                 {{ csrf_field() }}
@@ -77,18 +75,25 @@
                         <p class="form-control">{{$data [0]['status'] == 0 ? 'Belum Verifikasi' : 'Sudah Verifikasi'}}
                         </p>
                     </div>
-                    <div class="col-12 col-md-6 d-grid gap-2">
+                    <div class="col-12 {{ Auth::user()->level == 0 ? 'col-lg-6' : null }} d-grid gap-2">
                         <button class="btn btn-primary" type="submit">Update Data</button>
                     </div>
+                    @if ($data[0]['status'] == 0)
                     @if (Auth::user()->level == 0)
-                    <div class="col-12 col-md-6 d-grid gap-2">
-                        <a class="btn btn-warning" href="{{route('verifdatakk', ['id'=>$data[0]['no_kk']])}}">Verifikasi
-                            Data</a>
+                    <div class="col-12 col-lg-6 d-grid gap-2">
+                        <a class="btn btn-warning" href="{{route('verifdatakk', ['id'=>$data[0]['no_kk']])}}">
+                            Verifikasi Data
+                        </a>
                     </div>
-
-                    @else
+                    @elseif(Auth::user()->level == 1)
 
                     @endif
+                    @endif
+                    <div class="col-12 d-grid gap-2">
+                        <a class="btn btn-danger" href="{{route('datakk')}}">
+                            <i class="fa fa-chevron-left"></i>&nbsp;&nbsp;Kembali
+                        </a>
+                    </div>
                 </div>
             </form>
         </div>

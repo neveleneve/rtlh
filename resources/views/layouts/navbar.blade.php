@@ -1,12 +1,12 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-dark fixed-top">
+<nav class="navbar navbar-expand-lg navbar-dark bg-gradient-dark fixed-top">
     <div class="container-fluid my-2">
         <a class="navbar-brand fw-bold" href="{{ route('landing') }}">
-            <img height="24" class="rounded border border-dark" src="https://upload.wikimedia.org/wikipedia/commons/c/cf/Logo_of_the_Ministry_of_Public_Works_and_Housing_of_the_Republic_of_Indonesia.svg" alt="">
+            <img height="24" src="https://upload.wikimedia.org/wikipedia/commons/c/cf/Logo_of_the_Ministry_of_Public_Works_and_Housing_of_the_Republic_of_Indonesia.svg" alt="">
         </a>
-        <a class="navbar-brand fs-5 fw-bold d-none d-lg-inline" href="{{ route('landing') }}">
+        <a class="navbar-brand text-white fs-5 fw-bold d-none d-lg-inline" href="{{ route('landing') }}">
             Kementerian PUPR
         </a>
-        <a class="navbar-brand fs-5 fw-bold d-lg-none d-inline">
+        <a class="navbar-brand text-white fs-5 fw-bold d-lg-none d-inline">
             Kementerian PUPR
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

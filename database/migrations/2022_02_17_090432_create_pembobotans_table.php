@@ -16,8 +16,8 @@ class CreatePembobotansTable extends Migration
         Schema::create('pembobotans', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
-            $table->string('sifat');
-            $table->string('bobot');
+            $table->integer('sifat');
+            $table->integer('bobot');
             $table->timestamps();
         });
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\pembobotan;
 use App\Models\pendaftar_rtlh;
 use App\Rules\cekkkchar;
 use App\Rules\cekkklength;
@@ -23,7 +24,7 @@ class RegisteredUserController extends Controller
     // Halaman Data KK
     public function datakk()
     {
-        $data = pendaftar_rtlh::where('status', 0)->orderBy('created_at')->get();
+        $data = pendaftar_rtlh::orderBy('created_at')->get();
         return view('generalauth.datakk', [
             'data' => $data
         ]);
@@ -69,9 +70,16 @@ class RegisteredUserController extends Controller
     public function viewdatakk($id)
     {
         $data = pendaftar_rtlh::where('no_kk', $id)->get();
-        return view('generalauth.datakk_view', [
-            'data' => $data
-        ]);
+        // if ($data[0]['status'] == 0) {
+            return view('generalauth.datakk_view', [
+                'data' => $data
+            ]);
+        // } else {
+        //     return redirect(route('datakk'))->with([
+        //         'pemberitahuan' => 'Data KK Sudah diverifikasi oleh administrator provinsi!',
+        //         'warna' => 'danger',
+        //     ]);
+        // }
     }
     public function updatedatakk(Request $data)
     {
@@ -107,6 +115,12 @@ class RegisteredUserController extends Controller
     }
     public function bobot()
     {
-        return view('generalauth.bobot');
+        $data = pembobotan::get();
+        $no = 1;
+        return view('generalauth.bobot', [
+            'data' => $data,
+            'no' => $no,
+            'sumbobot' => 0,
+        ]);
     }
 }

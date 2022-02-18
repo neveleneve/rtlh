@@ -105,7 +105,7 @@
                     <input class="form-control mb-2" type="file" name="gambarkk" id="gambarkk" required>
                     <div class="row justify-content-center">
                         <div class="col-md-12 text-center mb-2">
-                            <img class="img-thumbnail" id="preview-image-kk" src="http://www.riobeauty.co.uk/images/product_image_not_found.gif" style="max-height: 250px;">
+                            <img id="preview-image-kk" src="{{ asset('images/template/not-found.png') }}" style="max-height: 250px;">
                             <br>
                             <label for="preview-img-kk">Preview Gambar KK</label>
                         </div>
@@ -116,7 +116,7 @@
                     <input class="form-control mb-2" type="file" name="gambarnik" id="gambarnik" required>
                     <div class="row justify-content-center">
                         <div class="col-md-12 text-center mb-2">
-                            <img class="img-thumbnail" id="preview-image-ktp" src="http://www.riobeauty.co.uk/images/product_image_not_found.gif" style="max-height: 250px;">
+                            <img id="preview-image-ktp" src="{{ asset('images/template/not-found.png') }}" style="max-height: 250px;">
                             <br>
                             <label for="preview-img-ktp">Preview Gambar KTP</label>
                         </div>
@@ -125,6 +125,11 @@
                     <input class="form-control mb-2" type="text" name="nama" id="nama" required>
                     <label for="alamat">Alamat (Sesuai Kartu Keluarga)<span class="text-danger">*</span></label>
                     <textarea name="alamat" id="alamat" cols="30" rows="10" class="form-control mb-2" required></textarea>
+                    <label for="fotorumah">Foto Keadaan Rumah<span class="text-danger">*</span></label>
+                    <input class="form-control mb-2" type="file" name="fotorumah[]" id="fotorumah" multiple required>
+                    <div class="row images-preview-div my-3">
+
+                    </div>
                     <div class="row">
                         <div class="col-12 col-lg-6 d-grid gap-2">
                             <button type="submit" class="btn btn-block btn-dark">Tambah</button>
@@ -144,6 +149,27 @@
 @endsection
 @section('customjs')
 <script type="text/javascript">
+    $(function() {
+        var previewImages = function(input, imgPreviewPlaceholder) {
+            if (input.files) {
+                $("div.images-preview-div").empty();
+                var filesAmount = input.files.length;
+                for (i = 0; i < filesAmount; i++) {
+                    var reader = new FileReader();
+                    reader.onload = function(event) {
+                        $($.parseHTML('<img>')).attr({
+                            'src': event.target.result,
+                            'class': 'img-thumbnail col-3'
+                        }).appendTo(imgPreviewPlaceholder);
+                    }
+                    reader.readAsDataURL(input.files[i]);
+                }
+            }
+        };
+        $('#fotorumah').on('change', function() {
+            previewImages(this, 'div.images-preview-div');
+        });
+    });
     $(document).ready(function (e) {
        $('#gambarkk').change(function(){
         let reader = new FileReader();

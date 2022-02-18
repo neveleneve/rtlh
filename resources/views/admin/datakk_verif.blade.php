@@ -12,16 +12,17 @@
         </div>
     </div>
     <div class="row mb-3">
-        <div class="col-12 col-md-3 d-grid gap-2">
+        <div class="col-12 col-lg-3 d-grid gap-2">
             <a class="btn btn-danger" href="{{route('viewdatakk', ['id'=>$data[0]['no_kk']])}}">
                 <i class="fa fa-chevron-left"></i>&nbsp;&nbsp;Kembali
             </a>
         </div>
     </div>
+    
     <div class="card">
         <div class="card-body">
             <div class="row">
-                <div class="col-12 col-lg-6">
+                <div class="col-12">
                     <label for="nokk">Nomor Kartu Keluarga</label>
                     <p class="form-control">{{$data[0]['no_kk']}}</p>
                     <input type="hidden" name="nokk" value="{{$data[0]['no_kk']}}">
@@ -30,7 +31,7 @@
                     <label for="nik">NIK Kepala Keluarga</label>
                     <p class="form-control">{{$data[0]['nik']}}</p>
                 </div>
-                <div class="col-12">
+                <div class="col-12 col-lg-6">
                     <label for="nama">Nama Kepala Keluarga</label>
                     <p class="form-control">{{$data[0]['nama']}}</p>
                 </div>
