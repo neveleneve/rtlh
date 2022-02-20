@@ -18,7 +18,7 @@
             </a>
         </div>
     </div>
-    
+
     <div class="card">
         <div class="card-body">
             <div class="row">
@@ -43,42 +43,32 @@
             <div class="row">
                 <div class="col-12 col-lg-6">
                     <label for="fotonik">Gambar Kartu Keluarga</label>
-                    <a href="https://image.cermati.com/c_fill,fl_progressive,g_north_east,h_800,q_80,w_1200/vnqow2e6z2mbfmiob7w4.jpg"
-                        data-toggle="lightbox">
-                        <img src="https://image.cermati.com/c_fill,fl_progressive,g_north_east,h_800,q_80,w_1200/vnqow2e6z2mbfmiob7w4.jpg"
-                            class="img-fluid img-thumbnail">
+                    <a href="https://image.cermati.com/c_fill,fl_progressive,g_north_east,h_800,q_80,w_1200/vnqow2e6z2mbfmiob7w4.jpg" data-toggle="lightbox">
+                        <img src="https://image.cermati.com/c_fill,fl_progressive,g_north_east,h_800,q_80,w_1200/vnqow2e6z2mbfmiob7w4.jpg" class="img-fluid img-thumbnail">
                     </a>
                 </div>
                 <div class="col-12 col-lg-6 mb-3">
                     <label for="fotonik">Gambar NIK Kepala Keluarga</label>
-                    <a href="https://kta.partaiummat.id/assets/front/images/contoh-scanktp.png" id="fotonik"
-                        data-toggle="lightbox">
-                        <img src="https://kta.partaiummat.id/assets/front/images/contoh-scanktp.png"
-                            class="img-fluid img-thumbnail">
+                    <a href="https://kta.partaiummat.id/assets/front/images/contoh-scanktp.png" id="fotonik" data-toggle="lightbox">
+                        <img src="https://kta.partaiummat.id/assets/front/images/contoh-scanktp.png" class="img-fluid img-thumbnail">
                     </a>
                 </div>
                 <div class="col-12 mb-3">
                     <label for="fotonik">Gambar Rumah</label>
                     <div class="row justify-content-center">
                         <div class="col-12 col-lg-6 mb-3">
-                            <a href="https://kta.partaiummat.id/assets/front/images/contoh-scanktp.png" id="fotonik"
-                                data-toggle="lightbox">
-                                <img src="https://kta.partaiummat.id/assets/front/images/contoh-scanktp.png"
-                                    class="img-fluid img-thumbnail">
+                            <a href="https://kta.partaiummat.id/assets/front/images/contoh-scanktp.png" id="fotonik" data-toggle="lightbox">
+                                <img src="https://kta.partaiummat.id/assets/front/images/contoh-scanktp.png" class="img-fluid img-thumbnail">
                             </a>
                         </div>
                         <div class="col-12 col-lg-6 mb-3">
-                            <a href="https://kta.partaiummat.id/assets/front/images/contoh-scanktp.png" id="fotonik"
-                                data-toggle="lightbox">
-                                <img src="https://kta.partaiummat.id/assets/front/images/contoh-scanktp.png"
-                                    class="img-fluid img-thumbnail">
+                            <a href="https://kta.partaiummat.id/assets/front/images/contoh-scanktp.png" id="fotonik" data-toggle="lightbox">
+                                <img src="https://kta.partaiummat.id/assets/front/images/contoh-scanktp.png" class="img-fluid img-thumbnail">
                             </a>
                         </div>
                         <div class="col-12 col-lg-6 mb-3">
-                            <a href="https://kta.partaiummat.id/assets/front/images/contoh-scanktp.png" id="fotonik"
-                                data-toggle="lightbox">
-                                <img src="https://kta.partaiummat.id/assets/front/images/contoh-scanktp.png"
-                                    class="img-fluid img-thumbnail">
+                            <a href="https://kta.partaiummat.id/assets/front/images/contoh-scanktp.png" id="fotonik" data-toggle="lightbox">
+                                <img src="https://kta.partaiummat.id/assets/front/images/contoh-scanktp.png" class="img-fluid img-thumbnail">
                             </a>
                         </div>
                     </div>
@@ -88,7 +78,22 @@
                         Form Penilaian
                     </h3>
                 </div>
+                @forelse ($pembobotan as $item)
                 <div class="col-12 mb-3">
+                    <label for="{{ $item->id_nama }}">{{ $item->nama }}</label>
+                    <select name="{{ $item->id_nama }}" id="{{ $item->id_nama }}" class="form-control">
+                        <option value="" disabled selected hidden>Pilih {{ $item->nama }}</option>
+                        @forelse ($nilai_pembobotan[$item->id - 1] as $dataitem)
+                        <option value="{{ $dataitem->value }}">{{ $dataitem->nama }}</option>
+                        @empty
+
+                        @endforelse
+                    </select>
+                </div>
+                @empty
+
+                @endforelse
+                {{-- <div class="col-12 mb-3">
                     <label for="atap">Kondisi Atap Rumah</label>
                     <select name="atap" id="atap" class="form-control">
                         <option value="" disabled selected hidden>Pilih Kondisi Atap Rumah</option>
@@ -147,9 +152,9 @@
                         <option value="1">Ada</option>
                         <option value="2">Tidak Ada</option>
                     </select>
-                </div>
+                </div> --}}
                 <div class="col-12 d-grid gap-2 mb-3">
-                    <button class="btn btn-danger" >
+                    <button class="btn btn-danger">
                         <i class="fa fa-chevron-left"></i>&nbsp;&nbsp;Kembali
                     </button>
                 </div>

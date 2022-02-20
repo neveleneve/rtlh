@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\nilai_pembobotan;
 use App\Models\pembobotan;
 use App\Models\pendaftar_rtlh;
 use Illuminate\Http\Request;
@@ -48,8 +49,16 @@ class AdminPuController extends Controller
     public function verifdatakk($id)
     {
         $data = pendaftar_rtlh::where('no_kk', $id)->get();
+        $pembobotan = pembobotan::get();
+        $nilai_pembobotan = [];
+        for ($i = 0; $i < count($pembobotan); $i++) {
+            $nilai_pembobotan[$i] = nilai_pembobotan::where('id', $i+1)->get();
+        }
+        dd($nilai_pembobotan);
         return view('admin.datakk_verif', [
-            'data' => $data
+            'data' => $data,
+            'pembobotan' => $pembobotan,
+            'nilai_pembobotan' => $nilai_pembobotan,
         ]);
     }
 
