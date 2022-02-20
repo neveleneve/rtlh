@@ -83,6 +83,76 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-12 mb-3 border-bottom">
+                    <h3 class="text-center fw-bold">
+                        Form Penilaian
+                    </h3>
+                </div>
+                <div class="col-12 mb-3">
+                    <label for="atap">Kondisi Atap Rumah</label>
+                    <select name="atap" id="atap" class="form-control">
+                        <option value="" disabled selected hidden>Pilih Kondisi Atap Rumah</option>
+                        <option value="1">Genteng</option>
+                        <option value="2">Bambu</option>
+                        <option value="3">Ijuk</option>
+                    </select>
+                </div>
+                <div class="col-12 mb-3">
+                    <label for="dinding">Kondisi Dinding Rumah</label>
+                    <select name="dinding" id="dinding" class="form-control">
+                        <option value="" disabled selected hidden>Pilih Kondisi Dinding Rumah</option>
+                        <option value="1">Papan</option>
+                        <option value="2">Bambu</option>
+                        <option value="3">Ilalang</option>
+                    </select>
+                </div>
+                <div class="col-12 mb-3">
+                    <label for="kepemilikan">Status Kepemilikan Rumah</label>
+                    <select name="kepemilikan" id="kepemilikan" class="form-control">
+                        <option value="" disabled selected hidden>Pilih Status Kepemilikan Rumah</option>
+                        <option value="1">Milik Sendiri</option>
+                        <option value="2">Sewa</option>
+                        <option value="3">Wakaf</option>
+                    </select>
+                </div>
+                <div class="col-12 mb-3">
+                    <label for="lantai">Kondisi Lantai Rumah</label>
+                    <select name="lantai" id="lantai" class="form-control">
+                        <option value="" disabled selected hidden>Pilih Kondisi Lantai Rumah</option>
+                        <option value="1">Keramik</option>
+                        <option value="2">Plester</option>
+                        <option value="3">Tanah</option>
+                    </select>
+                </div>
+                <div class="col-12 mb-3">
+                    <label for="listrik">Ketersediaan Listrik</label>
+                    <select name="listrik" id="listrik" class="form-control">
+                        <option value="" disabled selected hidden>Pilih Ketersediaan Listrik</option>
+                        <option value="1">Ada</option>
+                        <option value="2">Tidak Ada</option>
+                    </select>
+                </div>
+                <div class="col-12 mb-3">
+                    <label for="mck">Ketersediaan MCK</label>
+                    <select name="mck" id="mck" class="form-control">
+                        <option value="" disabled selected hidden>Pilih Ketersediaan MCK</option>
+                        <option value="1">Ada</option>
+                        <option value="2">Tidak Ada</option>
+                    </select>
+                </div>
+                <div class="col-12 mb-3">
+                    <label for="aset">Aset Lainnya</label>
+                    <select name="aset" id="aset" class="form-control">
+                        <option value="" disabled selected hidden>Pilih Aset Lainnya</option>
+                        <option value="1">Ada</option>
+                        <option value="2">Tidak Ada</option>
+                    </select>
+                </div>
+                <div class="col-12 d-grid gap-2 mb-3">
+                    <button class="btn btn-danger" >
+                        <i class="fa fa-chevron-left"></i>&nbsp;&nbsp;Kembali
+                    </button>
+                </div>
             </div>
         </div>
     </div>
