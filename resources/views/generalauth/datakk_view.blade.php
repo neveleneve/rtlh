@@ -75,7 +75,7 @@
                         <p class="form-control">{{$data [0]['status'] == 0 ? 'Belum Verifikasi' : 'Sudah Verifikasi'}}
                         </p>
                     </div>
-                    <div class="col-12 {{ Auth::user()->level == 0 ? 'col-lg-6' : null }} d-grid gap-2">
+                    <div class="col-12 {{ Auth::user()->level == 0 ? ($data[0]['status'] == 0 ? 'col-lg-6' : null) : null }} d-grid gap-2">
                         <button class="btn btn-primary" type="submit">Update Data</button>
                     </div>
                     @if ($data[0]['status'] == 0)

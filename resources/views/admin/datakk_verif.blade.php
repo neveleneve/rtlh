@@ -11,14 +11,6 @@
             @include('layouts.nav')
         </div>
     </div>
-    <div class="row mb-3">
-        <div class="col-12 col-lg-3 d-grid gap-2">
-            <a class="btn btn-danger" href="{{route('viewdatakk', ['id'=>$data[0]['no_kk']])}}">
-                <i class="fa fa-chevron-left"></i>&nbsp;&nbsp;Kembali
-            </a>
-        </div>
-    </div>
-
     <div class="card">
         <div class="card-body">
             <div class="row">
@@ -78,85 +70,34 @@
                         Form Penilaian
                     </h3>
                 </div>
-                @forelse ($pembobotan as $item)
-                <div class="col-12 mb-3">
-                    <label for="{{ $item->id_nama }}">{{ $item->nama }}</label>
-                    <select name="{{ $item->id_nama }}" id="{{ $item->id_nama }}" class="form-control">
-                        <option value="" disabled selected hidden>Pilih {{ $item->nama }}</option>
-                        @forelse ($nilai_pembobotan[$item->id - 1] as $dataitem)
-                        <option value="{{ $dataitem->value }}">{{ $dataitem->nama }}</option>
-                        @empty
+                <form action="{{ route('verifikasi') }}" method="post">
+                    {{ csrf_field() }}
+                    <input type="hidden" name="no_kk" value="{{ $data[0]['no_kk'] }}">
+                    @forelse ($pembobotan as $item)
+                    <div class="col-12 mb-3">
+                        <label for="{{ $item->id_nama }}">{{ ucwords($item->nama) }}</label>
+                        <select name="nilai[{{ $item->id }}]" id="{{ $item->id_nama }}" class="form-control" required>
+                            <option value="" disabled selected hidden>Pilih {{ ucwords($item->nama) }}</option>
+                            @forelse ($nilai_pembobotan[$item->id - 1] as $dataitem)
+                            <option value="{{ $dataitem->value }}">{{ ucwords($dataitem->nama) }}</option>
+                            @empty
 
-                        @endforelse
-                    </select>
-                </div>
-                @empty
+                            @endforelse
+                        </select>
+                    </div>
+                    @empty
 
-                @endforelse
-                {{-- <div class="col-12 mb-3">
-                    <label for="atap">Kondisi Atap Rumah</label>
-                    <select name="atap" id="atap" class="form-control">
-                        <option value="" disabled selected hidden>Pilih Kondisi Atap Rumah</option>
-                        <option value="1">Genteng</option>
-                        <option value="2">Bambu</option>
-                        <option value="3">Ijuk</option>
-                    </select>
-                </div>
-                <div class="col-12 mb-3">
-                    <label for="dinding">Kondisi Dinding Rumah</label>
-                    <select name="dinding" id="dinding" class="form-control">
-                        <option value="" disabled selected hidden>Pilih Kondisi Dinding Rumah</option>
-                        <option value="1">Papan</option>
-                        <option value="2">Bambu</option>
-                        <option value="3">Ilalang</option>
-                    </select>
-                </div>
-                <div class="col-12 mb-3">
-                    <label for="kepemilikan">Status Kepemilikan Rumah</label>
-                    <select name="kepemilikan" id="kepemilikan" class="form-control">
-                        <option value="" disabled selected hidden>Pilih Status Kepemilikan Rumah</option>
-                        <option value="1">Milik Sendiri</option>
-                        <option value="2">Sewa</option>
-                        <option value="3">Wakaf</option>
-                    </select>
-                </div>
-                <div class="col-12 mb-3">
-                    <label for="lantai">Kondisi Lantai Rumah</label>
-                    <select name="lantai" id="lantai" class="form-control">
-                        <option value="" disabled selected hidden>Pilih Kondisi Lantai Rumah</option>
-                        <option value="1">Keramik</option>
-                        <option value="2">Plester</option>
-                        <option value="3">Tanah</option>
-                    </select>
-                </div>
-                <div class="col-12 mb-3">
-                    <label for="listrik">Ketersediaan Listrik</label>
-                    <select name="listrik" id="listrik" class="form-control">
-                        <option value="" disabled selected hidden>Pilih Ketersediaan Listrik</option>
-                        <option value="1">Ada</option>
-                        <option value="2">Tidak Ada</option>
-                    </select>
-                </div>
-                <div class="col-12 mb-3">
-                    <label for="mck">Ketersediaan MCK</label>
-                    <select name="mck" id="mck" class="form-control">
-                        <option value="" disabled selected hidden>Pilih Ketersediaan MCK</option>
-                        <option value="1">Ada</option>
-                        <option value="2">Tidak Ada</option>
-                    </select>
-                </div>
-                <div class="col-12 mb-3">
-                    <label for="aset">Aset Lainnya</label>
-                    <select name="aset" id="aset" class="form-control">
-                        <option value="" disabled selected hidden>Pilih Aset Lainnya</option>
-                        <option value="1">Ada</option>
-                        <option value="2">Tidak Ada</option>
-                    </select>
-                </div> --}}
+                    @endforelse
+                    <div class="col-12 d-grid gap-2">
+                        <button class="btn btn-dark" type="submit">
+                            <i class="fa fa-save"></i>&nbsp;&nbsp;Simpan
+                        </button>
+                    </div>
+                </form>
                 <div class="col-12 d-grid gap-2 mb-3">
-                    <button class="btn btn-danger">
+                    <a class="btn btn-danger" href="{{ route('viewdatakk', ['id' => $data[0]['no_kk']]) }}">
                         <i class="fa fa-chevron-left"></i>&nbsp;&nbsp;Kembali
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>

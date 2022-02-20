@@ -18,10 +18,12 @@ Route::get('/data-kk/view/{id}', [App\Http\Controllers\RegisteredUserController:
 Route::get('/bobot', [App\Http\Controllers\RegisteredUserController::class, 'bobot'])->name('bobot');
 
 // pupr auth route
+Route::get('/bobot/view/{id}', [App\Http\Controllers\AdminPuController::class, 'viewbobot'])->name('viewbobot');
 Route::get('/data-kk/verifikasi/{id}', [App\Http\Controllers\AdminPuController::class, 'verifdatakk'])->name('verifdatakk');
 Route::get('/data-verifikasi', [App\Http\Controllers\AdminPuController::class, 'dataverifikasi'])->name('dataverifikasi');
 Route::get('/data-rtlh', [App\Http\Controllers\AdminPuController::class, 'datartlh'])->name('datartlh');
+Route::post('/data-kk/verifikasi', [App\Http\Controllers\AdminPuController::class, 'verifikasi'])->name('verifikasi');
 
 // lapangan auth route
-Route::post('/data-kk/add', [App\Http\Controllers\RegisteredUserController::class, 'adddatakk'])->name('adddatakk');
-Route::post('/data-kk/update', [App\Http\Controllers\RegisteredUserController::class, 'updatedatakk'])->name('updatedatakk');
+Route::post('/data-kk/add', [App\Http\Controllers\AdminLapanganController::class, 'adddatakk'])->name('adddatakk');
+Route::post('/data-kk/update', [App\Http\Controllers\AdminLapanganController::class, 'updatedatakk'])->name('updatedatakk');

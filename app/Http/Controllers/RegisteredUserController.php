@@ -29,51 +29,14 @@ class RegisteredUserController extends Controller
             'data' => $data
         ]);
     }
-    public function adddatakk(Request $data)
-    {
-        $data->validate([
-            'nama' => 'required',
-            'nokk' => [
-                'required',
-                new cekkkchar(),
-                new cekkklength(),
-            ],
-            'nik' => [
-                'required',
-                new ceknikchar(),
-                new cekniklength(),
-            ],
-            'alamat' => [
-                'required',
-            ],
-        ]);
-
-        if (pendaftar_rtlh::where('no_kk', $data->nokk)->exists()) {
-            $pemberitahuan = 'Data yang diinput sudah ada!';
-            $warna = 'danger';
-        } else {
-            pendaftar_rtlh::insert([
-                'no_kk' => $data->nokk,
-                'nik' => $data->nik,
-                'nama' => $data->nama,
-                'alamat' => $data->alamat,
-                'status' => 0,
-            ]);
-            $pemberitahuan = 'Data berhasil diinput!';
-            $warna = 'success';
-        }
-        return redirect(route('datakk'))->with([
-            'pemberitahuan' => $pemberitahuan,
-            'warna' => $warna,
-        ]);
-    }
+    
     public function viewdatakk($id)
     {
         $data = pendaftar_rtlh::where('no_kk', $id)->get();
         // if ($data[0]['status'] == 0) {
-            return view('generalauth.datakk_view', [
-                'data' => $data
-            ]);
+        return view('generalauth.datakk_view', [
+            'data' => $data
+        ]);
         // } else {
         //     return redirect(route('datakk'))->with([
         //         'pemberitahuan' => 'Data KK Sudah diverifikasi oleh administrator provinsi!',
@@ -81,34 +44,7 @@ class RegisteredUserController extends Controller
         //     ]);
         // }
     }
-    public function updatedatakk(Request $data)
-    {
-        $data->validate([
-            'nama' => 'required',
-            'nokk' => [
-                'required',
-                new cekkkchar(),
-                new cekkklength(),
-            ],
-            'nik' => [
-                'required',
-                new ceknikchar(),
-                new cekniklength(),
-            ],
-            'alamat' => [
-                'required',
-            ],
-        ]);
-        pendaftar_rtlh::where('no_kk', $data->nokk)->update([
-            'nik' => $data->nik,
-            'nama' => $data->nama,
-            'alamat' => $data->alamat,
-        ]);
-        return redirect(route('viewdatakk', ['id' => $data->nokk]))->with([
-            'pemberitahuan' => 'Berhasil mengubah data pengaju!',
-            'warna' => 'success',
-        ]);
-    }
+    
     public function setting()
     {
         # code...

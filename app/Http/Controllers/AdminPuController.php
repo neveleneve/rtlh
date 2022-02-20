@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\nilai_pembobotan;
 use App\Models\pembobotan;
 use App\Models\pendaftar_rtlh;
+use App\Models\penilaian;
 use Illuminate\Http\Request;
 
 class AdminPuController extends Controller
@@ -51,20 +52,64 @@ class AdminPuController extends Controller
         $data = pendaftar_rtlh::where('no_kk', $id)->get();
         $pembobotan = pembobotan::get();
         $nilai_pembobotan = [];
-        for ($i = 0; $i < count($pembobotan); $i++) {
-            $nilai_pembobotan[$i] = nilai_pembobotan::where('id', $i+1)->get();
+        if ($data[0]['status'] == 0) {
+            # code...
+            for ($i = 0; $i < count($pembobotan); $i++) {
+                $datanilaibobot = nilai_pembobotan::where('id_pembobotan', $pembobotan[$i]['id'])->get();
+                $nilai_pembobotan[$i] = $datanilaibobot;
+            }
+            return view('admin.datakk_verif', [
+                'data' => $data,
+                'pembobotan' => $pembobotan,
+                'nilai_pembobotan' => $nilai_pembobotan,
+            ]);
+        } else {
+            return redirect(route('datakk'))->with([
+                'pemberitahuan' => 'Data KK yang akan diverifikasi sudah terverifikasi!',
+                'warna' => 'danger',
+            ]);
         }
-        dd($nilai_pembobotan);
-        return view('admin.datakk_verif', [
-            'data' => $data,
-            'pembobotan' => $pembobotan,
-            'nilai_pembobotan' => $nilai_pembobotan,
-        ]);
     }
 
     public function verification(Request $data)
     {
         $bobot = pembobotan::get();
         $totalbobot = pembobotan::sum('bobot');
+    }
+
+    public function viewbobot($id)
+    {
+        $databobot = pembobotan::where('id', $id)->get();
+        $datanilaibobot = nilai_pembobotan::where('id_pembobotan', $id)->get();
+        return view('admin.bobot_view', [
+            'databobot' => $databobot,
+            'datanilaibobot' => $datanilaibobot,
+            'no' => 1,
+        ]);
+    }
+
+    public function verifikasi(Request $data)
+    {
+        $datapenilaian = penilaian::where('no_kk', $data->no_kk)->get();
+        $nilai = $data->nilai;
+        $idbobot = array_keys($nilai);
+        // cek jika data sudah ada dengan kondisi tertentu
+        if (count($datapenilaian) > 0) {
+            penilaian::where('no_kk', $data->no_kk)->delete();
+        }
+        for ($i = 0; $i < count($idbobot); $i++) {
+            penilaian::insert([
+                'no_kk' => $data->no_kk,
+                'id_pembobotan' => $idbobot[$i],
+                'nilai' => $nilai[$idbobot[$i]],
+            ]);
+        }
+        pendaftar_rtlh::where('no_kk', $data->no_kk)->update([
+            'status' => 1,
+        ]);
+        return redirect(route('datakk'))->with([
+            'pemberitahuan' => 'Berhasil Input Penilaian No KK : ' . $data->no_kk,
+            'warna' => 'success',
+        ]);
     }
 }

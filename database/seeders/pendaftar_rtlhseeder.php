@@ -17,7 +17,7 @@ class pendaftar_rtlhseeder extends Seeder
         pendaftar_rtlh::insert([
             [
                 'no_kk'=> '1234567890123456',
-                'nik'=> '1234567890123456',
+                'nik'=> '1234567890123233',
                 'nama'=> 'Budi',
                 'alamat'=> 'Jalan Peralatan',
                 'status'=> 0,

@@ -125,8 +125,8 @@
                     <input class="form-control mb-2" type="text" name="nama" id="nama" required>
                     <label for="alamat">Alamat (Sesuai Kartu Keluarga)<span class="text-danger">*</span></label>
                     <textarea name="alamat" id="alamat" cols="30" rows="10" class="form-control mb-2" required></textarea>
-                    <label for="fotorumah">Foto Keadaan Rumah<span class="text-danger">*</span></label>
-                    <input class="form-control mb-2" type="file" name="fotorumah[]" id="fotorumah" multiple required>
+                    {{-- <label for="fotorumah">Foto Keadaan Rumah<span class="text-danger">*</span></label>
+                    <input class="form-control mb-2" type="file" name="fotorumah[]" id="fotorumah" multiple required> --}}
                     <div class="row images-preview-div my-3">
 
                     </div>

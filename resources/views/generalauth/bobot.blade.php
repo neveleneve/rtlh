@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-<title>Penilaian RTLH</title>
+<title>Bobot Penilaian</title>
 @endsection
 
 @section('content')
@@ -37,6 +37,9 @@
                 <table class="table border table-hover text-center">
                     <thead class="table-dark">
                         <tr>
+                            @if (Auth::user()-> level == 0)
+                            <th>Aksi</th>
+                            @endif
                             <th>No</th>
                             <th>Nama Bobot</th>
                             <th>Kategori Bobot</th>
@@ -46,17 +49,24 @@
                     <tbody>
                         @forelse ($data as $item)
                         <tr>
+                            @if (Auth::user()-> level == 0)
+                            <td>
+                                <a href="{{ route('viewbobot', ['id'=> $item->id]) }}" class="btn btn-xs btn-dark">
+                                    <i class="fa fa-eye"></i>
+                                </a>
+                            </td>
+                            @endif
                             <td>{{ $no++ }}</td>
                             <td>{{ $item->nama }}</td>
-                            <td>{{ $item->sifat }}</td>
+                            <td>{{ $item->sifat == 0 ? 'Biaya' : 'Keuntungan' }}</td>
                             <td>{{ $item->bobot }}</td>
                         </tr>
                         @php
-                            $sumbobot += $item->bobot;
+                        $sumbobot += $item->bobot;
                         @endphp
                         @empty
                         <tr>
-                            <td colspan="4">
+                            <td colspan="{{ Auth::user()->level == 0 ? '5' : '4' }}">
                                 <h4 class="text-center">Data Pembobotan Kosong</h4>
                             </td>
                         </tr>
@@ -64,7 +74,7 @@
                     </tbody>
                     <tfoot class="table-dark fw-bold">
                         <tr>
-                            <td colspan="3" class="text-start">
+                            <td colspan="{{ Auth::user()->level == 0 ? '4' : '3' }}" class="text-center">
                                 Jumlah Nilai Bobot
                             </td>
                             <td>
