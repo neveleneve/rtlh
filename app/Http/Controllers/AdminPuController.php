@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\nilai_pembobotan;
+use App\Models\nilai_pengaju;
 use App\Models\pembobotan;
 use App\Models\pendaftar_rtlh;
 use App\Models\penilaian;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AdminPuController extends Controller
 {
@@ -39,7 +41,15 @@ class AdminPuController extends Controller
 
     public function datartlh()
     {
-        return view('admin.datartlh');
+        $data = DB::table('pendaftar_rtlhs')
+            ->join('nilai_pengajus', 'pendaftar_rtlhs.no_kk', '=', 'nilai_pengajus.no_kk')
+            ->orderBy('nilai_wp', 'desc')
+            ->get();
+        // dd($data);
+        return view('admin.datartlh', [
+            'data' => $data,
+            'no' => 1,
+        ]);
     }
 
     public function dataverifikasi()
@@ -49,19 +59,30 @@ class AdminPuController extends Controller
 
     public function verifdatakk($id)
     {
-        $data = pendaftar_rtlh::where('no_kk', $id)->get();
-        $pembobotan = pembobotan::get();
-        $nilai_pembobotan = [];
+        $data = pendaftar_rtlh::where('no_kk', $id)
+            ->get();
+        $datanilai = DB::table('penilaians')
+            ->join('pembobotans', 'penilaians.id_pembobotan', '=', 'pembobotans.id')
+            ->where('penilaians.no_kk', $id)
+            ->get();
+        $w = [];
+        $c = [];
+        $tipe = [];
+        $sumbobot = 0;
+        for ($i = 0; $i < count($datanilai); $i++) {
+            $sumbobot += $datanilai[$i]->bobot;
+        }
+        for ($i = 0; $i < count($datanilai); $i++) {
+            array_push($w, number_format($datanilai[$i]->bobot / $sumbobot, 3, '.', ','));
+            array_push($tipe, $datanilai[$i]->sifat);
+            array_push($c, $datanilai[$i]->nilai);
+        }
         if ($data[0]['status'] == 0) {
-            # code...
-            for ($i = 0; $i < count($pembobotan); $i++) {
-                $datanilaibobot = nilai_pembobotan::where('id_pembobotan', $pembobotan[$i]['id'])->get();
-                $nilai_pembobotan[$i] = $datanilaibobot;
-            }
+            $s = $this->vectorS($c, $w, $tipe);
             return view('admin.datakk_verif', [
                 'data' => $data,
-                'pembobotan' => $pembobotan,
-                'nilai_pembobotan' => $nilai_pembobotan,
+                'nilai_pembobotan' => $datanilai,
+                'hasil_pembobotan' => $s,
             ]);
         } else {
             return redirect(route('datakk'))->with([
@@ -71,16 +92,12 @@ class AdminPuController extends Controller
         }
     }
 
-    public function verification(Request $data)
-    {
-        $bobot = pembobotan::get();
-        $totalbobot = pembobotan::sum('bobot');
-    }
-
     public function viewbobot($id)
     {
-        $databobot = pembobotan::where('id', $id)->get();
-        $datanilaibobot = nilai_pembobotan::where('id_pembobotan', $id)->get();
+        $databobot = pembobotan::where('id', $id)
+            ->get();
+        $datanilaibobot = nilai_pembobotan::where('id_pembobotan', $id)
+            ->get();
         return view('admin.bobot_view', [
             'databobot' => $databobot,
             'datanilaibobot' => $datanilaibobot,
@@ -90,26 +107,22 @@ class AdminPuController extends Controller
 
     public function verifikasi(Request $data)
     {
-        $datapenilaian = penilaian::where('no_kk', $data->no_kk)->get();
-        $nilai = $data->nilai;
-        $idbobot = array_keys($nilai);
-        // cek jika data sudah ada dengan kondisi tertentu
-        if (count($datapenilaian) > 0) {
-            penilaian::where('no_kk', $data->no_kk)->delete();
-        }
-        for ($i = 0; $i < count($idbobot); $i++) {
-            penilaian::insert([
-                'no_kk' => $data->no_kk,
-                'id_pembobotan' => $idbobot[$i],
-                'nilai' => $nilai[$idbobot[$i]],
-            ]);
-        }
-        pendaftar_rtlh::where('no_kk', $data->no_kk)->update([
-            'status' => 1,
+        nilai_pengaju::create([
+            'no_kk' => $data->no_kk,
+            'nilai_wp' => number_format($data->hasil, 3, '.', ','),
         ]);
+        pendaftar_rtlh::where('no_kk', $data->no_kk)
+            ->update([
+                'status' => 1,
+            ]);
         return redirect(route('datakk'))->with([
             'pemberitahuan' => 'Berhasil Input Penilaian No KK : ' . $data->no_kk,
             'warna' => 'success',
         ]);
+    }
+
+    public function administrator()
+    {
+        return view('admin.administrator');
     }
 }

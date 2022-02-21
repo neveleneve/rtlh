@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\nilai_pembobotan;
 use App\Models\pembobotan;
 use App\Models\pendaftar_rtlh;
 use App\Rules\cekkkchar;
@@ -9,6 +10,7 @@ use App\Rules\cekkklength;
 use App\Rules\ceknikchar;
 use App\Rules\cekniklength;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RegisteredUserController extends Controller
 {
@@ -24,30 +26,38 @@ class RegisteredUserController extends Controller
     // Halaman Data KK
     public function datakk()
     {
-        $data = pendaftar_rtlh::orderBy('created_at')->get();
+        $data = pendaftar_rtlh::orderBy('status')
+            ->get();
+        $databobot = pembobotan::get();
+        $nilai_pembobotan = [];
+        for ($i = 0; $i < count($databobot); $i++) {
+            $datanilaibobot = nilai_pembobotan::where('id_pembobotan', $databobot[$i]['id'])->get();
+            $nilai_pembobotan[$i] = $datanilaibobot;
+        }
         return view('generalauth.datakk', [
-            'data' => $data
+            'data' => $data,
+            'pembobotan' => $databobot,
+            'nilai_pembobotan' => $nilai_pembobotan,
         ]);
     }
-    
+
     public function viewdatakk($id)
     {
-        $data = pendaftar_rtlh::where('no_kk', $id)->get();
-        // if ($data[0]['status'] == 0) {
+        $data = pendaftar_rtlh::where('no_kk', $id)
+            ->get();
+        $datanilai = DB::table('penilaians')
+            ->join('pembobotans', 'penilaians.id_pembobotan', '=', 'pembobotans.id')
+            ->where('penilaians.no_kk', $id)
+            ->get();
         return view('generalauth.datakk_view', [
-            'data' => $data
+            'data' => $data,
+            'nilai_pembobotan' => $datanilai,
         ]);
-        // } else {
-        //     return redirect(route('datakk'))->with([
-        //         'pemberitahuan' => 'Data KK Sudah diverifikasi oleh administrator provinsi!',
-        //         'warna' => 'danger',
-        //     ]);
-        // }
     }
-    
+
     public function setting()
     {
-        # code...
+        return view('generalauth.setting');
     }
     public function bobot()
     {

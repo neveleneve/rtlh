@@ -56,6 +56,7 @@
                 <table class="table border table-hover text-center">
                     <thead class="table-dark">
                         <tr>
+                            <th>Status</th>
                             <th>Nomor KK</th>
                             <th>NIK Kepala Keluarga</th>
                             <th>Nama Kepala Keluarga</th>
@@ -65,6 +66,17 @@
                     <tbody class="align-middle">
                         @forelse($data as $item)
                         <tr>
+                            <td>
+                                @if ($item->status == 0)
+                                <span class="badge bg-danger" title="Sudah Verifikasi">
+                                    <i class="fa fa-times"></i>
+                                </span>
+                                @elseif ($item->status == 1)
+                                <span class="badge bg-success" title="Sudah Verifikasi">
+                                    <i class="fa fa-check"></i>
+                                </span>
+                                @endif
+                            </td>
                             <td>{{$item->no_kk}}</td>
                             <td>{{$item->nik}}</td>
                             <td>{{$item->nama}}</td>
@@ -126,10 +138,25 @@
                     <label for="alamat">Alamat (Sesuai Kartu Keluarga)<span class="text-danger">*</span></label>
                     <textarea name="alamat" id="alamat" cols="30" rows="10" class="form-control mb-2" required></textarea>
                     {{-- <label for="fotorumah">Foto Keadaan Rumah<span class="text-danger">*</span></label>
-                    <input class="form-control mb-2" type="file" name="fotorumah[]" id="fotorumah" multiple required> --}}
+                    <input class="form-control mb-2" type="file" name="fotorumah[]" id="fotorumah" multiple required>
                     <div class="row images-preview-div my-3">
 
+                    </div> --}}
+                    @forelse ($pembobotan as $item)
+                    <div class="col-12 mb-3">
+                        <label for="{{ $item->id_nama }}">{{ ucwords($item->nama) }}</label>
+                        <select name="nilai[{{ $item->id }}]" id="{{ $item->id_nama }}" class="form-control" required>
+                            <option value="" disabled selected hidden>Pilih {{ ucwords($item->nama) }}</option>
+                            @forelse ($nilai_pembobotan[$item->id - 1] as $dataitem)
+                            <option value="{{ $dataitem->value }}">{{ ucwords($dataitem->nama) }}</option>
+                            @empty
+
+                            @endforelse
+                        </select>
                     </div>
+                    @empty
+
+                    @endforelse
                     <div class="row">
                         <div class="col-12 col-lg-6 d-grid gap-2">
                             <button type="submit" class="btn btn-block btn-dark">Tambah</button>

@@ -58,7 +58,7 @@
                             @endif
                             <td>{{ $no++ }}</td>
                             <td>{{ $item->nama }}</td>
-                            <td>{{ $item->sifat == 0 ? 'Biaya' : 'Keuntungan' }}</td>
+                            <td>{{ $item->sifat == 0 ? 'Benefit' : 'Cost' }}</td>
                             <td>{{ $item->bobot }}</td>
                         </tr>
                         @php

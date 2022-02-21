@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class pendaftar_rtlh extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'no_kk',
+        'nik',
+        'nama',
+        'alamat',
+        'status',
+    ];
 }

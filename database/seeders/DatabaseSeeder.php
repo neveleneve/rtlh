@@ -17,5 +17,6 @@ class DatabaseSeeder extends Seeder
         $this->call(pendaftar_rtlhseeder::class);
         $this->call(PembobotanSeeder::class);
         $this->call(NilaiPembobotanSeeder::class);
+        $this->call(penilaianseeder::class);
     }
 }

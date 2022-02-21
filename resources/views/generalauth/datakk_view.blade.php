@@ -75,10 +75,25 @@
                         <p class="form-control">{{$data [0]['status'] == 0 ? 'Belum Verifikasi' : 'Sudah Verifikasi'}}
                         </p>
                     </div>
+                    @if (Auth::user()->level == 1)
+                    <div class="col-12 mb-3 border-bottom">
+                        <h3 class="text-center fw-bold">
+                            Penilaian Pengaju RTLH
+                        </h3>
+                    </div>
+                    @forelse ($nilai_pembobotan as $item)
+                    <div class="col-12 mb-3">
+                        <label for="{{ $item->id_nama }}">{{ ucwords($item->nama) }} (Bobot : {{ $item->bobot }} Poin)</label>
+                        <input class="form-control" type="text" name="{{ $item->id_nama }}" id="{{ $item->id_nama }}" value="{{ $item->nilai }}" readonly>
+                    </div>
+                    @empty
+
+                    @endforelse
+                    @endif
+                    @if ($data[0]['status'] == 0)
                     <div class="col-12 {{ Auth::user()->level == 0 ? ($data[0]['status'] == 0 ? 'col-lg-6' : null) : null }} d-grid gap-2">
                         <button class="btn btn-primary" type="submit">Update Data</button>
                     </div>
-                    @if ($data[0]['status'] == 0)
                     @if (Auth::user()->level == 0)
                     <div class="col-12 col-lg-6 d-grid gap-2">
                         <a class="btn btn-warning" href="{{route('verifdatakk', ['id'=>$data[0]['no_kk']])}}">

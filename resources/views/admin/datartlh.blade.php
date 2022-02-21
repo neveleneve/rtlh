@@ -22,24 +22,22 @@
                 <thead class="table-dark">
                     <tr>
                         <th>No.</th>
-                        <th>Nama</th>
+                        <th>No. KK</th>
                         <th>Alamat</th>
-                        <th>Aksi</th>
+                        <th>Nilai</th>
                     </tr>
                 </thead>
                 <tbody class="align-middle">
+                    @forelse ($data as $item)
                     <tr>
-                        <td>1</td>
-                        <td>Budiman</td>
-                        <td class="align-middle text-sm">
-                            Jalan Kemangi Gang Pandan No. 4
-                        </td>
-                        <td>
-                            <a href="#" class="btn btn-xs btn-success my-3" title="View">
-                                <i class="fa fa-eye"></i>
-                            </a>
-                        </td>
+                        <td>{{ $no++ }}</td>
+                        <td>{{ $item->no_kk }}</td>
+                        <td>{{ ucwords($item->alamat) }}</td>
+                        <td>{{ $item->nilai_wp }}</td>
                     </tr>
+                    @empty
+
+                    @endforelse
                 </tbody>
             </table>
         </div>

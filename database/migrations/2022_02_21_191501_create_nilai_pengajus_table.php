@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateNilaipengajusTable extends Migration
+class CreateNilaiPengajusTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateNilaipengajusTable extends Migration
      */
     public function up()
     {
-        Schema::create('nilaipengajus', function (Blueprint $table) {
+        Schema::create('nilai_pengajus', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_pengaju');
-            $table->integer('id_pembobotan');
-            $table->integer('nilai');
+            $table->string('no_kk');
+            $table->float('nilai_wp', 8, 3);
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateNilaipengajusTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('nilaipengajus');
+        Schema::dropIfExists('nilai_pengajus');
     }
 }
