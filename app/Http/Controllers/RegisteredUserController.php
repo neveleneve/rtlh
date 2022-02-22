@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\kecamatan;
 use App\Models\nilai_pembobotan;
 use App\Models\pembobotan;
 use App\Models\pendaftar_rtlh;
@@ -10,6 +11,7 @@ use App\Rules\cekkklength;
 use App\Rules\ceknikchar;
 use App\Rules\cekniklength;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class RegisteredUserController extends Controller
@@ -34,11 +36,20 @@ class RegisteredUserController extends Controller
             $datanilaibobot = nilai_pembobotan::where('id_pembobotan', $databobot[$i]['id'])->get();
             $nilai_pembobotan[$i] = $datanilaibobot;
         }
-        return view('generalauth.datakk', [
-            'data' => $data,
-            'pembobotan' => $databobot,
-            'nilai_pembobotan' => $nilai_pembobotan,
-        ]);
+        $datadaerah = kecamatan::where('kotakab_id', Auth::user()->daerah_id)->get();
+        if (Auth::user()->level == 0) {
+            $datas = [
+                'data' => $data,
+            ];
+        } elseif (Auth::user()->level == 1) {
+            $datas = [
+                'data' => $data,
+                'pembobotan' => $databobot,
+                'nilai_pembobotan' => $nilai_pembobotan,
+                'data_daerah' => $datadaerah,
+            ];
+        }
+        return view('generalauth.datakk', $datas);
     }
 
     public function viewdatakk($id)

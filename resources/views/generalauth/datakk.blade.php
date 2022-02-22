@@ -68,7 +68,7 @@
                         <tr>
                             <td>
                                 @if ($item->status == 0)
-                                <span class="badge bg-danger" title="Sudah Verifikasi">
+                                <span class="badge bg-danger" title="Belum Verifikasi">
                                     <i class="fa fa-times"></i>
                                 </span>
                                 @elseif ($item->status == 1)
@@ -136,12 +136,22 @@
                     <label for="nama">Nama Kepala Keluarga<span class="text-danger">*</span></label>
                     <input class="form-control mb-2" type="text" name="nama" id="nama" required>
                     <label for="alamat">Alamat (Sesuai Kartu Keluarga)<span class="text-danger">*</span></label>
-                    <textarea name="alamat" id="alamat" cols="30" rows="10" class="form-control mb-2" required></textarea>
-                    {{-- <label for="fotorumah">Foto Keadaan Rumah<span class="text-danger">*</span></label>
-                    <input class="form-control mb-2" type="file" name="fotorumah[]" id="fotorumah" multiple required>
-                    <div class="row images-preview-div my-3">
-
-                    </div> --}}
+                    <textarea name="alamat" id="alamat" rows="5" class="form-control mb-2" required></textarea>
+                    <label for="kecamatan">Kecamatan<span class="text-danger">*</span></label>
+                    <select name="kecamatan" id="kecamatan" class="form-control">
+                        <option value="" selected disabled hidden>Pilih Kecamatan</option>
+                        @forelse ($data_daerah as $item)
+                        <option value="{{ $item->id }}">{{ ucwords(strtolower($item->name)) }}</option>
+                        @empty
+                        @endforelse
+                    </select>
+                    <label for="kelurahan">Kelurahan<span class="text-danger">*</span></label>
+                    <select name="kelurahan" id="kelurahan" class="form-control">
+                        <option value="" selected disabled hidden>Pilih Kelurahan</option>
+                    </select>
+                    <hr class="dropdown-divider mt-3">
+                    <h3 class="text-center">Penilaian Kondisi Pengaju</h3>
+                    <hr class="dropdown-divider">
                     @forelse ($pembobotan as $item)
                     <div class="col-12 mb-3">
                         <label for="{{ $item->id_nama }}">{{ ucwords($item->nama) }}</label>
@@ -171,10 +181,10 @@
     </div>
 </div>
 {{-- @else --}}
-
 @endif
 @endsection
 @section('customjs')
+<script type="text/javascript" src="{{ asset('js/ajax.js') }}"></script>
 <script type="text/javascript">
     $(function() {
         var previewImages = function(input, imgPreviewPlaceholder) {

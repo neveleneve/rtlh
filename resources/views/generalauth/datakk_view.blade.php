@@ -91,17 +91,16 @@
                     @endforelse
                     @endif
                     @if ($data[0]['status'] == 0)
-                    <div class="col-12 {{ Auth::user()->level == 0 ? ($data[0]['status'] == 0 ? 'col-lg-6' : null) : null }} d-grid gap-2">
-                        <button class="btn btn-primary" type="submit">Update Data</button>
-                    </div>
                     @if (Auth::user()->level == 0)
-                    <div class="col-12 col-lg-6 d-grid gap-2">
-                        <a class="btn btn-warning" href="{{route('verifdatakk', ['id'=>$data[0]['no_kk']])}}">
+                    <div class="col-12 d-grid gap-2">
+                        <a class="btn btn-dark" href="{{route('verifdatakk', ['id'=>$data[0]['no_kk']])}}">
                             Verifikasi Data
                         </a>
                     </div>
                     @elseif(Auth::user()->level == 1)
-
+                    <div class="col-12 d-grid gap-2">
+                        <button class="btn btn-dark" type="submit">Update Data</button>
+                    </div>
                     @endif
                     @endif
                     <div class="col-12 d-grid gap-2">

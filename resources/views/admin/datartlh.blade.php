@@ -36,7 +36,11 @@
                         <td>{{ $item->nilai_wp }}</td>
                     </tr>
                     @empty
-
+                    <tr>
+                        <td colspan="4">
+                            <h4 class="text-center">Data Kosong</h4>
+                        </td>
+                    </tr>
                     @endforelse
                 </tbody>
             </table>
