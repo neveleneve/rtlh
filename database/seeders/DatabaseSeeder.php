@@ -18,5 +18,9 @@ class DatabaseSeeder extends Seeder
         $this->call(PembobotanSeeder::class);
         $this->call(NilaiPembobotanSeeder::class);
         $this->call(penilaianseeder::class);
+        $this->call(provinsiseeder::class);
+        $this->call(kotakabseeder::class);
+        $this->call(kecamatanseeder::class);
+        $this->call(kelurahanseeder::class);
     }
 }
