@@ -22,7 +22,12 @@ class RegisteredUserController extends Controller
     }
     public function index()
     {
-        return view('generalauth.dashboard');
+        $datadaftar = pendaftar_rtlh::where('status', 0)->count();
+        $dataterverifikasi = pendaftar_rtlh::where('status', 1)->count();
+        return view('generalauth.dashboard', [
+            'terdaftar' => $datadaftar,
+            'terverifikasi' => $dataterverifikasi,
+        ]);
     }
 
     // Halaman Data KK

@@ -160,12 +160,10 @@
                             @forelse ($nilai_pembobotan[$item->id - 1] as $dataitem)
                             <option value="{{ $dataitem->value }}">{{ ucwords($dataitem->nama) }}</option>
                             @empty
-
                             @endforelse
                         </select>
                     </div>
                     @empty
-
                     @endforelse
                     <div class="row">
                         <div class="col-12 col-lg-6 d-grid gap-2">
