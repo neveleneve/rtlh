@@ -413,7 +413,7 @@ class kotakabseeder extends Seeder
             79 => [
                 'id' => '1405',
                 'provinsi_id' => '14',
-                'name' => 'KABUPATEN S I A K',
+                'name' => 'KABUPATEN SIAK',
             ],
             80 => [
                 'id' => '1406',
@@ -448,7 +448,7 @@ class kotakabseeder extends Seeder
             86 => [
                 'id' => '1473',
                 'provinsi_id' => '14',
-                'name' => 'KOTA D U M A I',
+                'name' => 'KOTA DUMAI',
             ],
             87 => [
                 'id' => '1501',
@@ -778,12 +778,12 @@ class kotakabseeder extends Seeder
             152 => [
                 'id' => '2171',
                 'provinsi_id' => '21',
-                'name' => 'KOTA B A T A M',
+                'name' => 'KOTA BATAM',
             ],
             153 => [
                 'id' => '2172',
                 'provinsi_id' => '21',
-                'name' => 'KOTA TANJUNG PINANG',
+                'name' => 'KOTA TANJUNGPINANG',
             ],
             154 => [
                 'id' => '3101',

@@ -18,9 +18,9 @@ class UserSeeder extends Seeder
         User::insert([
             [
                 'name' => "Admin Provinsi Kepulauan Riau",
-                'username' => "adminpupr",
+                'username' => "adminprovinsikepulauanriau",
                 'email_verified_at' => null,
-                'password' => Hash::make('admin'),
+                'password' => Hash::make('adminprovinsikepulauanriau'),
                 'level' => 0,
                 'daerah_id' => 21,
                 'remember_token' => null,
@@ -28,10 +28,10 @@ class UserSeeder extends Seeder
                 'updated_at' => date('Y-m-d H:i:s'),
             ],
             [
-                'name' => "Admin Kepulauan Riau - Tanjungpinang",
-                'username' => "admintanjungpinang",
+                'name' => "Admin Provinsi Kepulauan Riau - Kota Tanjungpinang",
+                'username' => "adminkotatanjungpinang",
                 'email_verified_at' => null,
-                'password' => Hash::make('admintanjungpinang'),
+                'password' => Hash::make('adminkotatanjungpinang'),
                 'level' => 1,
                 'daerah_id' => 2172,
                 'remember_token' => null,

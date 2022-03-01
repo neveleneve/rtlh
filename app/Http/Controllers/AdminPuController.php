@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\kotakab;
 use App\Models\nilai_pembobotan;
 use App\Models\nilai_pengaju;
 use App\Models\pembobotan;
@@ -11,6 +12,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class AdminPuController extends Controller
 {
@@ -144,14 +146,43 @@ class AdminPuController extends Controller
                     'provinsis.name as namaprovinsi',
                 ])
                 ->get();
+            $datakotakab = kotakab::where('provinsi_id', Auth::user()->daerah_id)->get();
             return view('admin.administrator', [
                 'data' => $data,
+                'datakotakab' => $datakotakab,
                 'no' => 1,
             ]);
         }
     }
     public function addadministrator(Request $data)
     {
-        
+        // 1. cek admin jika sudah tersedia (fitur jika setiap kota hanya boleh 1 admin)
+        $dataadmin = User::where('daerah_id', $data->kotakabs)->count();
+        if ($dataadmin == 0) {
+            $kotakabs = DB::table('kotakabs')
+                ->join('provinsis', 'kotakabs.provinsi_id', '=', 'provinsis.id')
+                ->select([
+                    'provinsis.name as provinsi',
+                    'kotakabs.name as kotakab',
+                ])
+                ->where('kotakabs.id', $data->kotakabs)
+                ->get();
+            User::create([
+                'name' => 'Admin Provinsi ' . ucwords(strtolower($kotakabs[0]->provinsi)) . ' - ' . ucwords(strtolower($kotakabs[0]->kotakab)),
+                'username' => 'admin' . str_replace(' ', '', strtolower($kotakabs[0]->kotakab)),
+                'password' => Hash::make('admin' . str_replace(' ', '', strtolower($kotakabs[0]->kotakab))),
+                'level' => 1,
+                'daerah_id' => $data->kotakabs,
+            ]);
+            $pemberitahuan = 'Data administrator daerah ' . ucwords(strtolower($kotakabs[0]->kotakab)) . ' berhasil ditambahkan';
+            $warna = 'success';
+        } else {
+            $pemberitahuan = 'Data administrator sudah ada';
+            $warna = 'danger';
+        }
+        return redirect(route('administrator'))->with([
+            'pemberitahuan' => $pemberitahuan,
+            'warna' => $warna,
+        ]);
     }
 }

@@ -17,7 +17,6 @@
         </div>
         @if (Auth::user()->level == 1)
         <div class="col-0 col-lg-6">
-
         </div>
         <div class="col-12 col-lg-3 d-grid gap-2">
             <a class="btn btn-xs btn-primary float-end" data-bs-toggle="modal" data-bs-target="#modaltambah">
@@ -27,7 +26,6 @@
                 </span>
             </a>
         </div>
-        {{-- @else --}}
         @endif
     </div>
     @if ($errors->any())
@@ -178,7 +176,6 @@
         </div>
     </div>
 </div>
-{{-- @else --}}
 @endif
 @endsection
 @section('customjs')
