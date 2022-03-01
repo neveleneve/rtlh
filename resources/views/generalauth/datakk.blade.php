@@ -81,7 +81,7 @@
                             <td>{{$item->nik}}</td>
                             <td>{{$item->nama}}</td>
                             <td>
-                                <a href="{{route('viewdatakk', ['id'=>$item->no_kk])}}" class="badge badge-sm bg-info text-white ">View</a>
+                                <a href="{{route('viewdatakk', ['id'=>$item->no_kk])}}" class="badge badge-sm bg-info text-white">View</a>
                             </td>
                         </tr>
                         @empty

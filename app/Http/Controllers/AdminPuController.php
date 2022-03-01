@@ -7,7 +7,9 @@ use App\Models\nilai_pengaju;
 use App\Models\pembobotan;
 use App\Models\pendaftar_rtlh;
 use App\Models\penilaian;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class AdminPuController extends Controller
@@ -123,6 +125,33 @@ class AdminPuController extends Controller
 
     public function administrator()
     {
-        return view('admin.administrator');
+        // cek daerah user
+        if (Auth::user()->daerah_id == 0) {
+            $data = User::whereRaw('LENGTH(daerah_id) = 2')->get();
+            // dd($data);
+            return 'Halaman masih dalam pengembangan';
+        } elseif (Auth::user()->daerah_id != 0) {
+            $data = DB::table('users')
+                ->join('kotakabs', 'users.daerah_id', '=', 'kotakabs.id')
+                ->join('provinsis', 'kotakabs.provinsi_id', '=', 'provinsis.id')
+                ->where('kotakabs.provinsi_id', Auth::user()->daerah_id)
+                ->whereRaw('LENGTH(kotakabs.id) = 4')
+                ->select([
+                    'users.id as userid',
+                    'users.name as nama',
+                    'users.username as username',
+                    'kotakabs.name as namadaerah',
+                    'provinsis.name as namaprovinsi',
+                ])
+                ->get();
+            return view('admin.administrator', [
+                'data' => $data,
+                'no' => 1,
+            ]);
+        }
+    }
+    public function addadministrator(Request $data)
+    {
+        
     }
 }

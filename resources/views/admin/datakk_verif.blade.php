@@ -61,7 +61,7 @@
                     @forelse ($nilai_pembobotan as $item)
                     <div class="col-12 mb-3">
                         <label for="{{ $item->id_nama }}">{{ ucwords($item->nama) }} (Bobot : {{ $item->bobot }} Poin)</label>
-                        <input class="form-control" type="text" name="{{ $item->id_nama }}" id="{{ $item->id_nama }}" value="{{ $item->nilai }}" readonly>
+                        <input class="form-control" type="text" name="{{ $item->id_nama }}" id="{{ $item->id_nama }}" value="{{ $item->nama }} (Nilai : {{ $item->nilai }} poin)" readonly>
                     </div>
                     @empty
 

@@ -18,32 +18,36 @@
     </div>
     <div class="row mb-3">
         <div class="col-12">
-            <table class="table table-hover border text-center">
-                <thead class="table-dark">
-                    <tr>
-                        <th>No.</th>
-                        <th>No. KK</th>
-                        <th>Alamat</th>
-                        <th>Nilai</th>
-                    </tr>
-                </thead>
-                <tbody class="align-middle">
-                    @forelse ($data as $item)
-                    <tr>
-                        <td>{{ $no++ }}</td>
-                        <td>{{ $item->no_kk }}</td>
-                        <td>{{ ucwords($item->alamat) }}</td>
-                        <td>{{ $item->nilai_wp }}</td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="4">
-                            <h4 class="text-center">Data Kosong</h4>
-                        </td>
-                    </tr>
-                    @endforelse
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-hover border text-center">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>No.</th>
+                            <th>No. KK</th>
+                            <th>Nama Kepala Keluargas</th>
+                            <th>Alamat</th>
+                            <th>Nilai</th>
+                        </tr>
+                    </thead>
+                    <tbody class="align-middle">
+                        @forelse ($data as $item)
+                        <tr>
+                            <td>{{ $no++ }}</td>
+                            <td>{{ $item->no_kk }}</td>
+                            <td>{{ $item->nama }}</td>
+                            <td>{{ ucwords($item->alamat) }}</td>
+                            <td>{{ $item->nilai_wp }}</td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="4">
+                                <h4 class="text-center">Data Kosong</h4>
+                            </td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

@@ -29,6 +29,7 @@ Route::get('/data-kk/verifikasi/{id}', [App\Http\Controllers\AdminPuController::
 Route::post('/data-kk/verifikasi', [App\Http\Controllers\AdminPuController::class, 'verifikasi'])->name('verifikasi');
 
 Route::get('/administrator', [App\Http\Controllers\AdminPuController::class, 'administrator'])->name('administrator');
+Route::post('/administrator/add', [App\Http\Controllers\AdminPuController::class, 'addadministrator'])->name('addadministrator');
 
 // lapangan auth route
 Route::post('/data-kk/add', [App\Http\Controllers\AdminLapanganController::class, 'adddatakk'])->name('adddatakk');
