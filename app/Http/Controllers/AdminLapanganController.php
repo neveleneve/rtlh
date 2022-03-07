@@ -37,6 +37,7 @@ class AdminLapanganController extends Controller
                 'required',
             ],
         ]);
+        // dd($data->all());
         $nilai = $data->nilai;
         $idbobot = array_keys($nilai);
         for ($i = 0; $i < count($idbobot); $i++) {
@@ -56,6 +57,7 @@ class AdminLapanganController extends Controller
                 'nama' => $data->nama,
                 'alamat' => $data->alamat,
                 'status' => 0,
+                'kelurahan_id' => $data->kelurahan,
             ]);
             $pemberitahuan = 'Data berhasil diinput!';
             $warna = 'success';

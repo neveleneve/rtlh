@@ -39,7 +39,7 @@
     </div>
     @endif
     @if (Session::has('pemberitahuan'))
-    <div class="row mb-3">
+    <div class="row">
         <div class="col-12">
             <div class="alert bg-{{session('warna')}} alert-dismissable text-center text-light font-weight-bold" role="alert">
                 {{ session('pemberitahuan') }}
@@ -149,7 +149,7 @@
                     <label for="alamat">Alamat (Sesuai Kartu Keluarga)<span class="text-danger">*</span></label>
                     <textarea name="alamat" id="alamat" rows="5" class="form-control mb-2" required></textarea>
                     <label for="kecamatan">Kecamatan<span class="text-danger">*</span></label>
-                    <select name="kecamatan" id="kecamatan" class="form-control">
+                    <select id="kecamatan" class="form-control">
                         <option value="" selected disabled hidden>Pilih Kecamatan</option>
                         @forelse ($data_daerah as $item)
                         <option value="{{ $item->id }}">{{ ucwords(strtolower($item->name)) }}</option>
@@ -157,7 +157,7 @@
                         @endforelse
                     </select>
                     <label for="kelurahan">Kelurahan<span class="text-danger">*</span></label>
-                    <select name="kelurahan" id="kelurahan" class="form-control">
+                    <select name="kelurahan" id="kelurahan" name="kelurahan" class="form-control" disabled>
                         <option value="" selected disabled hidden>Pilih Kelurahan</option>
                     </select>
                     <hr class="dropdown-divider mt-3">

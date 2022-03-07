@@ -37,3 +37,7 @@ Route::post('/administrator/add', [App\Http\Controllers\AdminPuController::class
 // lapangan auth route
 Route::post('/data-kk/add', [App\Http\Controllers\AdminLapanganController::class, 'adddatakk'])->name('adddatakk');
 Route::post('/data-kk/update', [App\Http\Controllers\AdminLapanganController::class, 'updatedatakk'])->name('updatedatakk');
+
+// Route::fallback(function () {
+//     return response()->view('errors.404', [], 404);
+// });
