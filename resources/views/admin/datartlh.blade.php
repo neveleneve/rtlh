@@ -40,7 +40,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="4">
+                            <td colspan="5">
                                 <h4 class="text-center">Data Kosong</h4>
                             </td>
                         </tr>

@@ -19,6 +19,7 @@ class CreatePendaftarRtlhsTable extends Migration
             $table->string('nik');
             $table->string('nama');
             $table->string('alamat');
+            $table->bigInteger('kelurahan_id');
             $table->string('status');
             $table->timestamps();
         });

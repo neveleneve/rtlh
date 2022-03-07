@@ -33,20 +33,48 @@ class RegisteredUserController extends Controller
     // Halaman Data KK
     public function datakk()
     {
-        $data = pendaftar_rtlh::orderBy('status')
-            ->get();
-        $databobot = pembobotan::get();
-        $nilai_pembobotan = [];
-        for ($i = 0; $i < count($databobot); $i++) {
-            $datanilaibobot = nilai_pembobotan::where('id_pembobotan', $databobot[$i]['id'])->get();
-            $nilai_pembobotan[$i] = $datanilaibobot;
-        }
-        $datadaerah = kecamatan::where('kotakab_id', Auth::user()->daerah_id)->get();
         if (Auth::user()->level == 0) {
+            $data = DB::table('pendaftar_rtlhs')
+                ->join('kelurahans', 'pendaftar_rtlhs.kelurahan_id', '=', 'kelurahans.id')
+                ->join('kecamatans', 'kelurahans.kecamatan_id', '=', 'kecamatans.id')
+                ->join('kotakabs', 'kecamatans.kotakab_id', '=', 'kotakabs.id')
+                ->join('provinsis', 'kotakabs.provinsi_id', '=', 'provinsis.id')
+                ->select([
+                    'pendaftar_rtlhs.no_kk',
+                    'pendaftar_rtlhs.nama',
+                    'pendaftar_rtlhs.status',
+                    'kelurahans.name as kelurahan',
+                    'kecamatans.name as kecamatan',
+                    'kotakabs.name as kotakab',
+                ])
+                ->where('provinsis.id', Auth::user()->daerah_id)
+                ->paginate(10);
             $datas = [
                 'data' => $data,
             ];
         } elseif (Auth::user()->level == 1) {
+            $data = DB::table('pendaftar_rtlhs')
+                ->join('kelurahans', 'pendaftar_rtlhs.kelurahan_id', '=', 'kelurahans.id')
+                ->join('kecamatans', 'kelurahans.kecamatan_id', '=', 'kecamatans.id')
+                ->join('kotakabs', 'kecamatans.kotakab_id', '=', 'kotakabs.id')
+                ->join('provinsis', 'kotakabs.provinsi_id', '=', 'provinsis.id')
+                ->select([
+                    'pendaftar_rtlhs.no_kk',
+                    'pendaftar_rtlhs.nama',
+                    'pendaftar_rtlhs.status',
+                    'kelurahans.name as kelurahan',
+                    'kecamatans.name as kecamatan',
+                    'kotakabs.name as kotakab',
+                ])
+                ->where('kotakabs.id', Auth::user()->daerah_id)
+                ->paginate(10);
+            $databobot = pembobotan::get();
+            $nilai_pembobotan = [];
+            for ($i = 0; $i < count($databobot); $i++) {
+                $datanilaibobot = nilai_pembobotan::where('id_pembobotan', $databobot[$i]['id'])->get();
+                $nilai_pembobotan[$i] = $datanilaibobot;
+            }
+            $datadaerah = kecamatan::where('kotakab_id', Auth::user()->daerah_id)->get();
             $datas = [
                 'data' => $data,
                 'pembobotan' => $databobot,

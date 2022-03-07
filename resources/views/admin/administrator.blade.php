@@ -39,35 +39,40 @@
                 <table class="table table-hover border text-center">
                     <thead class="table-dark">
                         <tr>
-                            <th>No</th>
+                            <th></th>
                             <th>Nama</th>
                             <th>Nama Pengguna</th>
                             <th>Provinsi</th>
                             <th>Kota / Kabupaten</th>
-                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse ($data as $item)
                         <tr>
-                            <td>{{ $no++ }}</td>
-                            <td>{{ ucwords(strtolower($item->nama)) }}</td>
-                            <td>{{ $item->username }}</td>
-                            <td>{{ ucwords(strtolower($item->namaprovinsi)) }}</td>
-                            <td>{{ ucwords(strtolower($item->namadaerah)) }}</td>
                             <td>
                                 <a class="badge bg-info text-white" href="#">
                                     <i class="fa fa-eye"></i>
                                 </a>
                             </td>
+                            <td>{{ ucwords(strtolower($item->nama)) }}</td>
+                            <td>{{ $item->username }}</td>
+                            <td>{{ ucwords(strtolower($item->namaprovinsi)) }}</td>
+                            <td>{{ ucwords(strtolower($item->namadaerah)) }}</td>
                         </tr>
                         @empty
-
+                        <tr>
+                            <td colspan="5">
+                                <h4 class="text-center">Data Kosong</h4>
+                            </td>
+                        </tr>
                         @endforelse
                     </tbody>
                 </table>
             </div>
         </div>
+    </div>
+    <div class="d-flex justify-content-center">
+        {!! $data->links() !!}
     </div>
 </div>
 <div class="modal fade" id="modaltambah">

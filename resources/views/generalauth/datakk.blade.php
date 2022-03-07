@@ -54,16 +54,32 @@
                 <table class="table border table-hover text-center">
                     <thead class="table-dark">
                         <tr>
-                            <th>Status</th>
+                            <th class="text-center"></th>
                             <th>Nomor KK</th>
-                            <th>NIK Kepala Keluarga</th>
                             <th>Nama Kepala Keluarga</th>
-                            <th class="text-center">Aksi</th>
+                            @if (Auth::user()->level == 0)
+                            <th>Kota/Kab.</th>
+                            @endif
+                            <th>Kec.</th>
+                            <th>Kel.</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
                     <tbody class="align-middle">
                         @forelse($data as $item)
                         <tr>
+                            <td>
+                                <a href="{{route('viewdatakk', ['id'=>$item->no_kk])}}" class="badge badge-sm bg-info text-white">
+                                    <i class="fa fa-eye"></i>
+                                </a>
+                            </td>
+                            <td>{{$item->no_kk}}</td>
+                            <td>{{$item->nama}}</td>
+                            @if (Auth::user()->level == 0)
+                            <td>{{ucwords(strtolower($item->kotakab))}}</td>
+                            @endif
+                            <td>{{ucwords(strtolower($item->kecamatan))}}</td>
+                            <td>{{ucwords(strtolower($item->kelurahan))}}</td>
                             <td>
                                 @if ($item->status == 0)
                                 <span class="badge bg-danger" title="Belum Verifikasi">
@@ -75,16 +91,10 @@
                                 </span>
                                 @endif
                             </td>
-                            <td>{{$item->no_kk}}</td>
-                            <td>{{$item->nik}}</td>
-                            <td>{{$item->nama}}</td>
-                            <td>
-                                <a href="{{route('viewdatakk', ['id'=>$item->no_kk])}}" class="badge badge-sm bg-info text-white">View</a>
-                            </td>
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="5">
+                            <td colspan="{{ Auth::user()->level == 0 ? '7' : '6' }}">
                                 <h4 class="text-center">Data Kosong</h4>
                             </td>
                         </tr>
@@ -93,6 +103,9 @@
                 </table>
             </div>
         </div>
+    </div>
+    <div class="d-flex justify-content-center">
+        {!! $data->links() !!}
     </div>
 </div>
 @if (Auth::user()->level == 1)

@@ -145,12 +145,11 @@ class AdminPuController extends Controller
                     'kotakabs.name as namadaerah',
                     'provinsis.name as namaprovinsi',
                 ])
-                ->get();
+                ->paginate(10);
             $datakotakab = kotakab::where('provinsi_id', Auth::user()->daerah_id)->get();
             return view('admin.administrator', [
                 'data' => $data,
                 'datakotakab' => $datakotakab,
-                'no' => 1,
             ]);
         }
     }
@@ -168,7 +167,7 @@ class AdminPuController extends Controller
                 ->where('kotakabs.id', $data->kotakabs)
                 ->get();
             User::create([
-                'name' => 'Admin Provinsi ' . ucwords(strtolower($kotakabs[0]->provinsi)) . ' - ' . ucwords(strtolower($kotakabs[0]->kotakab)),
+                'name' => 'Admin '. ucwords(strtolower($kotakabs[0]->kotakab)),
                 'username' => 'admin' . str_replace(' ', '', strtolower($kotakabs[0]->kotakab)),
                 'password' => Hash::make('admin' . str_replace(' ', '', strtolower($kotakabs[0]->kotakab))),
                 'level' => 1,

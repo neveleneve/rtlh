@@ -104,7 +104,7 @@
                     @endif
                     @endif
                     <div class="col-12 d-grid gap-2">
-                        <a class="btn btn-danger" href="{{route('datakk')}}">
+                        <a class="btn btn-danger" href="{{url()->previous()}}">
                             <i class="fa fa-chevron-left"></i>&nbsp;&nbsp;Kembali
                         </a>
                     </div>

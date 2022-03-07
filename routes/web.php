@@ -19,6 +19,8 @@ Route::get('/bobot', [App\Http\Controllers\RegisteredUserController::class, 'bob
 
 Route::get('/data-kk', [App\Http\Controllers\RegisteredUserController::class, 'datakk'])->name('datakk');
 Route::get('/data-kk/view/{id}', [App\Http\Controllers\RegisteredUserController::class, 'viewdatakk'])->name('viewdatakk');
+// ajax
+Route::post('/pilih-kelurahan', [App\Http\Controllers\AjaxController::class, 'pilihkelurahan'])->name('pilihkelurahan');
 
 // pupr auth route
 Route::get('/bobot/view/{id}', [App\Http\Controllers\AdminPuController::class, 'viewbobot'])->name('viewbobot');

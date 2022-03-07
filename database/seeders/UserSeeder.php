@@ -28,7 +28,7 @@ class UserSeeder extends Seeder
                 'updated_at' => date('Y-m-d H:i:s'),
             ],
             [
-                'name' => "Admin Provinsi Kepulauan Riau - Kota Tanjungpinang",
+                'name' => "Admin Kota Tanjungpinang",
                 'username' => "adminkotatanjungpinang",
                 'email_verified_at' => null,
                 'password' => Hash::make('adminkotatanjungpinang'),
