@@ -19,6 +19,7 @@ class CreatePembobotansTable extends Migration
             $table->integer('sifat');
             $table->integer('bobot');
             $table->string('id_nama')->unique();
+            $table->longText('keterangan');
             $table->timestamps();
         });
     }

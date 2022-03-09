@@ -17,7 +17,8 @@ class DatabaseSeeder extends Seeder
         $this->call(pendaftar_rtlhseeder::class);
         $this->call(PembobotanSeeder::class);
         $this->call(NilaiPembobotanSeeder::class);
-        $this->call(penilaianseeder::class);
+        // hidupkan seeder ini jika hanya generate 1 data saja
+        // $this->call(penilaianseeder::class);
         $this->call(provinsiseeder::class);
         $this->call(kotakabseeder::class);
         $this->call(kecamatanseeder::class);

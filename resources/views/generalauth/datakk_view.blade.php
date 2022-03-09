@@ -94,7 +94,7 @@
                     @if (Auth::user()->level == 0)
                     <div class="col-12 d-grid gap-2">
                         <a class="btn btn-dark" href="{{route('verifdatakk', ['id'=>$data[0]['no_kk']])}}">
-                            Verifikasi Data
+                            <i class="fa fa-user-check"></i>&nbsp;&nbsp;Verifikasi Data
                         </a>
                     </div>
                     @elseif(Auth::user()->level == 1)
@@ -104,8 +104,8 @@
                     @endif
                     @endif
                     <div class="col-12 d-grid gap-2">
-                        <a class="btn btn-danger" href="{{url()->previous()}}">
-                            <i class="fa fa-chevron-left"></i>&nbsp;&nbsp;Kembali
+                        <a class="btn btn-danger" href="{{route('datakk')}}">
+                            <i class="fa fa-chevron-left"></i>&nbsp;&nbsp;Kembali Ke Halaman Data KK
                         </a>
                     </div>
                 </div>

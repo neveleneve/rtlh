@@ -19,8 +19,6 @@ Route::get('/bobot', [App\Http\Controllers\RegisteredUserController::class, 'bob
 
 Route::get('/data-kk', [App\Http\Controllers\RegisteredUserController::class, 'datakk'])->name('datakk');
 Route::get('/data-kk/view/{id}', [App\Http\Controllers\RegisteredUserController::class, 'viewdatakk'])->name('viewdatakk');
-// ajax
-Route::post('/pilih-kelurahan', [App\Http\Controllers\AjaxController::class, 'pilihkelurahan'])->name('pilihkelurahan');
 
 // pupr auth route
 Route::get('/bobot/view/{id}', [App\Http\Controllers\AdminPuController::class, 'viewbobot'])->name('viewbobot');
@@ -38,6 +36,19 @@ Route::post('/administrator/add', [App\Http\Controllers\AdminPuController::class
 Route::post('/data-kk/add', [App\Http\Controllers\AdminLapanganController::class, 'adddatakk'])->name('adddatakk');
 Route::post('/data-kk/update', [App\Http\Controllers\AdminLapanganController::class, 'updatedatakk'])->name('updatedatakk');
 
-// Route::fallback(function () {
-//     return response()->view('errors.404', [], 404);
-// });
+// ajax
+Route::post('/pilih-kelurahan', [App\Http\Controllers\AjaxController::class, 'pilihkelurahan'])->name('pilihkelurahan');
+Route::post('/select-kotakab', [App\Http\Controllers\AjaxController::class, 'selectkotakab'])->name('selectkotakab');
+Route::post('/select-kecamatan', [App\Http\Controllers\AjaxController::class, 'selectkecamatan'])->name('selectkecamatan');
+Route::post('/select-kelurahan', [App\Http\Controllers\AjaxController::class, 'selectkelurahan'])->name('selectkelurahan');
+
+// scripting and css
+Route::get('script/{filename}', function ($filename) {
+    return response(file_get_contents(public_path('/js/' . $filename)))->header('Content-Type', 'text/javascript');
+})->middleware(['auth'])->name('scripting');
+Route::get('css/{filename}', function ($filename) {
+    return response(file_get_contents(public_path('/argon/assets/css/' . str_replace('|', '/', $filename))))->header('Content-Type', 'text/css');
+})->name('css');
+Route::get('scripts/{filename}', function ($filename) {
+    return response(file_get_contents(public_path('/argon/assets/js/' . str_replace('|', '/', $filename))))->header('Content-Type', 'text/javascript');
+})->name('script');

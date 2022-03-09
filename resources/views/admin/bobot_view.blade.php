@@ -18,12 +18,15 @@
             </a>
         </div>
     </div>
-    <div class="row mb-3">
+    <div class="row">
         <div class="col-6">
-            <p><strong>Nama Bobot :</strong> {{ $databobot[0]['nama'] }}</p>
+            <p><strong>Nama Kriteria :</strong> {{ $databobot[0]['nama'] }}</p>
         </div>
         <div class="col-6">
-            <p><strong>Nilai Bobot :</strong> {{ $databobot[0]['bobot'] }}</p>
+            <p><strong>Bobot Kriteria :</strong> {{ $databobot[0]['bobot'] }}</p>
+        </div>
+        <div class="col-6">
+            <p><strong>Keterangan :</strong> {{ $databobot[0]['keterangan'] }}</p>
         </div>
     </div>
     <div class="row mb-3">

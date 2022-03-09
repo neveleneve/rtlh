@@ -11,23 +11,73 @@
             @include('layouts.nav')
         </div>
     </div>
+    @if (Auth::user()->level == 1)
     <div class="row">
-        <div class="col-12 col-lg-3 mb-3">
-            <input type="text" class="form-control form-control-sm" placeholder="Pencarian...">
-        </div>
-        @if (Auth::user()->level == 1)
-        <div class="col-0 col-lg-6">
+        <div class="col-0 col-lg-9">
         </div>
         <div class="col-12 col-lg-3 d-grid gap-2">
             <a class="btn btn-xs btn-primary float-end" data-bs-toggle="modal" data-bs-target="#modaltambah">
                 <i class="fa fa-plus d-lg-none d-inline"></i>
                 <span class="d-none d-lg-inline">
-                    Tambah
+                    Tambah Data
                 </span>
             </a>
         </div>
-        @endif
     </div>
+    @endif
+    <div class="row mb-3">
+        <div class="accordion accordion-xs accordion-flush" id="accordionExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button bg-dark text-light collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Filter Data
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                    <div class="accordion-body border">
+                        <div class="row">
+                            <div class="col-12 col-lg-3 mb-3">
+                                @if (Auth::user()->level == 0)
+                                <label for="pencarian">Pencarian</label>
+                                @endif
+                                <input id="pencarian" type="text" class="form-control form-control-sm" placeholder="Pencarian...">
+                            </div>
+                            @if(Auth::user()->level == 0)
+                            <div class="col-4 col-lg-3 mb-3">
+                                <label for="kotakab">Kota/Kabupaten</label>
+                                <select id="kotakab" class="form-control form-control-sm">
+                                    <option value="all" selected>Semua</option>
+                                    @foreach ($datakotakab as $item)
+                                    <option value="{{ $item->id }}">{{ ucwords(strtolower($item->name)) }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-4 col-lg-3 mb-3">
+                                <label for="kecamatan">Kecamatan</label>
+                                <select id="kecamatan" class="form-control form-control-sm">
+                                    <option value="all" selected>Semua</option>
+                                    @foreach ($datakecamatan as $item)
+                                    <option value="{{ $item->id }}">{{ ucwords(strtolower($item->name)) }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-4 col-lg-3 mb-3">
+                                <label for="kelurahan">Kelurahan</label>
+                                <select id="kelurahan" class="form-control form-control-sm">
+                                    <option value="all" selected>Semua</option>
+                                    @foreach ($datakelurahan as $item)
+                                    <option value="{{ $item->id }}">{{ ucwords(strtolower($item->name)) }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     @if ($errors->any())
     <div class="row mb-3">
         <div class="col-12">
@@ -104,9 +154,16 @@
             </div>
         </div>
     </div>
-    <div class="d-flex justify-content-center">
-        {!! $data->links() !!}
+    <div class="d-flex justify-content-center" id="pagination_link">
+        {{  $data->links()  }}
     </div>
+    @if ($data->links())
+    <div class="row mb-3" id="pagination_info">
+        <div class="col-12 text-center">
+            <small>Menampilkan {{ (($data->currentPage() - 1) * $data->perPage()) + 1 }} - {{ $data->currentPage() == $data->lastPage() ? $data->total() : $data->currentPage() * $data->perPage() }} dari {{ $data->total() }} data</small>
+        </div>
+    </div>
+    @endif
 </div>
 @if (Auth::user()->level == 1)
 
@@ -148,16 +205,16 @@
                     <input class="form-control mb-2" type="text" name="nama" id="nama" required>
                     <label for="alamat">Alamat (Sesuai Kartu Keluarga)<span class="text-danger">*</span></label>
                     <textarea name="alamat" id="alamat" rows="5" class="form-control mb-2" required></textarea>
-                    <label for="kecamatan">Kecamatan<span class="text-danger">*</span></label>
-                    <select id="kecamatan" class="form-control">
+                    <label for="kecamatanmodal">Kecamatan<span class="text-danger">*</span></label>
+                    <select id="kecamatanmodal" class="form-control">
                         <option value="" selected disabled hidden>Pilih Kecamatan</option>
                         @forelse ($data_daerah as $item)
                         <option value="{{ $item->id }}">{{ ucwords(strtolower($item->name)) }}</option>
                         @empty
                         @endforelse
                     </select>
-                    <label for="kelurahan">Kelurahan<span class="text-danger">*</span></label>
-                    <select name="kelurahan" id="kelurahan" name="kelurahan" class="form-control" disabled>
+                    <label for="kelurahanmodal">Kelurahan<span class="text-danger">*</span></label>
+                    <select name="kelurahan" id="kelurahanmodal" class="form-control" disabled>
                         <option value="" selected disabled hidden>Pilih Kelurahan</option>
                     </select>
                     <hr class="dropdown-divider mt-3">
@@ -192,7 +249,7 @@
 @endif
 @endsection
 @section('customjs')
-<script type="text/javascript" src="{{ asset('js/ajax.js') }}"></script>
+<script type="text/javascript" src="{{ route('scripting', ['filename'=>'ajax.js']) }}"></script>
 <script type="text/javascript">
     $(function() {
         var previewImages = function(input, imgPreviewPlaceholder) {

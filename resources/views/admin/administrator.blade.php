@@ -91,7 +91,7 @@
                     <select name="kotakabs" id="kotakabs" class="form-control">
                         <option value="" disabled selected hidden>Pilih Kota/Kabupaten</option>
                         @foreach ($datakotakab as $item)
-                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                        <option value="{{ $item->id }}">{{ ucwords(strtolower($item->name)) }}</option>
                         @endforeach
                     </select>
                     <div class="row mt-3">

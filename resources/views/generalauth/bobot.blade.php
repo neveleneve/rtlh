@@ -34,16 +34,18 @@
     <div class="row mb-3">
         <div class="col-12">
             <div class="table-responsive">
-                <table class="table border table-hover text-center">
-                    <thead class="table-dark">
+                <table class="table border fw-bold table-hover text-center">
+                    <thead class="table-dark ">
                         <tr>
                             @if (Auth::user()-> level == 0)
-                            <th>Aksi</th>
-                            @endif
+                            <th></th>
+                            @elseif(Auth::user()-> level == 1)
                             <th>No</th>
-                            <th>Nama Bobot</th>
-                            <th>Kategori Bobot</th>
-                            <th>Nilai Bobot</th>
+                            @endif
+                            <th>Nama Kriteria</th>
+                            <th>Kategori Kriteria</th>
+                            <th>Bobot Kriteria</th>
+                            <th>Keterangan</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -51,22 +53,24 @@
                         <tr>
                             @if (Auth::user()-> level == 0)
                             <td>
-                                <a href="{{ route('viewbobot', ['id'=> $item->id]) }}" class="btn btn-xs btn-dark">
+                                <a title="Lihat Pilihan Kriteria" href="{{ route('viewbobot', ['id'=> $item->id]) }}" class="badge bg-dark text-white">
                                     <i class="fa fa-eye"></i>
                                 </a>
                             </td>
-                            @endif
+                            @elseif(Auth::user()-> level == 1)
                             <td>{{ $no++ }}</td>
+                            @endif
                             <td>{{ $item->nama }}</td>
                             <td>{{ $item->sifat == 0 ? 'Benefit' : 'Cost' }}</td>
                             <td>{{ $item->bobot }}</td>
+                            <td>{{ $item->keterangan }}</td>
                         </tr>
                         @php
                         $sumbobot += $item->bobot;
                         @endphp
                         @empty
                         <tr>
-                            <td colspan="{{ Auth::user()->level == 0 ? '5' : '4' }}">
+                            <td colspan="5">
                                 <h4 class="text-center">Data Pembobotan Kosong</h4>
                             </td>
                         </tr>
@@ -74,12 +78,13 @@
                     </tbody>
                     <tfoot class="table-dark fw-bold">
                         <tr>
-                            <td colspan="{{ Auth::user()->level == 0 ? '4' : '3' }}" class="text-center">
+                            <td colspan="3" class="text-center">
                                 Jumlah Nilai Bobot
                             </td>
                             <td>
                                 {{ $sumbobot }}
                             </td>
+                            <td></td>
                         </tr>
                     </tfoot>
                 </table>

@@ -60,8 +60,8 @@
                     <input type="hidden" name="no_kk" value="{{ $data[0]['no_kk'] }}">
                     @forelse ($nilai_pembobotan as $item)
                     <div class="col-12 mb-3">
-                        <label for="{{ $item->id_nama }}">{{ ucwords($item->nama) }} (Bobot : {{ $item->bobot }} Poin)</label>
-                        <input class="form-control" type="text" name="{{ $item->id_nama }}" id="{{ $item->id_nama }}" value="{{ $item->nama }} (Nilai : {{ $item->nilai }} poin)" readonly>
+                        <label for="{{ $item->id_nama }}">{{ ucwords($item->nama_kriteria) }} (Bobot : {{ $item->bobot }} Poin)</label>
+                        <input class="form-control" type="text" name="{{ $item->id_nama }}" id="{{ $item->id_nama }}" value="{{ ucwords(strtolower($item->nama_nilai)) }} (Nilai : {{ $item->nilai }} poin)" readonly>
                     </div>
                     @empty
 
@@ -78,7 +78,7 @@
                 </form>
                 <div class="col-12 d-grid gap-2 mb-3">
                     <a class="btn btn-danger" href="{{ route('viewdatakk', ['id' => $data[0]['no_kk']]) }}">
-                        <i class="fa fa-chevron-left"></i>&nbsp;&nbsp;Kembali
+                        <i class="fa fa-chevron-left"></i>&nbsp;&nbsp;Kembali Ke Data Pengaju
                     </a>
                 </div>
             </div>

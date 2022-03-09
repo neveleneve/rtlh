@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\kecamatan;
+use App\Models\kotakab;
 use App\Models\nilai_pembobotan;
 use App\Models\pembobotan;
 use App\Models\pendaftar_rtlh;
@@ -31,9 +32,23 @@ class RegisteredUserController extends Controller
     }
 
     // Halaman Data KK
-    public function datakk()
+    public function datakk(Request $data)
     {
         if (Auth::user()->level == 0) {
+            $datakotakab = kotakab::where('provinsi_id', Auth::user()->daerah_id)
+                ->get();
+            $datakecamatan = DB::table('kecamatans')
+                ->join('kotakabs', 'kecamatans.kotakab_id', '=', 'kotakabs.id')
+                ->where('kotakabs.provinsi_id', Auth::user()->daerah_id)
+                ->select('kecamatans.*')
+                ->get();
+            $datakelurahan = DB::table('kelurahans')
+                ->join('kecamatans', 'kelurahans.kecamatan_id', '=', 'kecamatans.id')
+                ->join('kotakabs', 'kecamatans.kotakab_id', '=', 'kotakabs.id')
+                ->where('kotakabs.provinsi_id', Auth::user()->daerah_id)
+                ->select('kelurahans.*')
+                ->get();
+
             $data = DB::table('pendaftar_rtlhs')
                 ->join('kelurahans', 'pendaftar_rtlhs.kelurahan_id', '=', 'kelurahans.id')
                 ->join('kecamatans', 'kelurahans.kecamatan_id', '=', 'kecamatans.id')
@@ -51,6 +66,9 @@ class RegisteredUserController extends Controller
                 ->paginate(10);
             $datas = [
                 'data' => $data,
+                'datakotakab' => $datakotakab,
+                'datakecamatan' => $datakecamatan,
+                'datakelurahan' => $datakelurahan,
             ];
         } elseif (Auth::user()->level == 1) {
             $data = DB::table('pendaftar_rtlhs')

@@ -37,7 +37,6 @@ class AdminLapanganController extends Controller
                 'required',
             ],
         ]);
-        // dd($data->all());
         $nilai = $data->nilai;
         $idbobot = array_keys($nilai);
         for ($i = 0; $i < count($idbobot); $i++) {

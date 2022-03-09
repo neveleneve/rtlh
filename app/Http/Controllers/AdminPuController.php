@@ -16,9 +16,11 @@ use Illuminate\Support\Facades\Hash;
 
 class AdminPuController extends Controller
 {
+    
     public function __construct()
     {
         $this->middleware(['auth', 'adminpupr']);
+        DB::enableQueryLog();
     }
 
     // function hitung nilai S pada weight product
@@ -67,7 +69,19 @@ class AdminPuController extends Controller
             ->get();
         $datanilai = DB::table('penilaians')
             ->join('pembobotans', 'penilaians.id_pembobotan', '=', 'pembobotans.id')
-            ->where('penilaians.no_kk', $id)
+            ->join('nilai_pembobotans', 'penilaians.id_pembobotan', '=', 'nilai_pembobotans.id_pembobotan')
+            ->where([
+                'penilaians.no_kk' => $id                
+            ])
+            ->whereRaw('nilai_pembobotans.value = penilaians.nilai')
+            ->select([
+                'penilaians.nilai as nilai',
+                'pembobotans.sifat as sifat_kriteria',
+                'pembobotans.bobot as bobot',
+                'pembobotans.nama as nama_kriteria',
+                'pembobotans.id_nama as id_nama',
+                'nilai_pembobotans.nama as nama_nilai',
+            ])
             ->get();
         $w = [];
         $c = [];
@@ -78,7 +92,7 @@ class AdminPuController extends Controller
         }
         for ($i = 0; $i < count($datanilai); $i++) {
             array_push($w, number_format($datanilai[$i]->bobot / $sumbobot, 3, '.', ','));
-            array_push($tipe, $datanilai[$i]->sifat);
+            array_push($tipe, $datanilai[$i]->sifat_kriteria);
             array_push($c, $datanilai[$i]->nilai);
         }
         if ($data[0]['status'] == 0) {
@@ -167,7 +181,7 @@ class AdminPuController extends Controller
                 ->where('kotakabs.id', $data->kotakabs)
                 ->get();
             User::create([
-                'name' => 'Admin '. ucwords(strtolower($kotakabs[0]->kotakab)),
+                'name' => 'Admin ' . ucwords(strtolower($kotakabs[0]->kotakab)),
                 'username' => 'admin' . str_replace(' ', '', strtolower($kotakabs[0]->kotakab)),
                 'password' => Hash::make('admin' . str_replace(' ', '', strtolower($kotakabs[0]->kotakab))),
                 'level' => 1,
