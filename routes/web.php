@@ -40,7 +40,6 @@ Route::post('/data-kk/update', [App\Http\Controllers\AdminLapanganController::cl
 Route::post('/pilih-kelurahan', [App\Http\Controllers\AjaxController::class, 'pilihkelurahan'])->name('pilihkelurahan');
 Route::post('/select-kotakab', [App\Http\Controllers\AjaxController::class, 'selectkotakab'])->name('selectkotakab');
 Route::post('/select-kecamatan', [App\Http\Controllers\AjaxController::class, 'selectkecamatan'])->name('selectkecamatan');
-Route::post('/select-kelurahan', [App\Http\Controllers\AjaxController::class, 'selectkelurahan'])->name('selectkelurahan');
 
 // scripting and css
 Route::get('script/{filename}', function ($filename) {

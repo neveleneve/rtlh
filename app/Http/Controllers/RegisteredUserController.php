@@ -7,10 +7,6 @@ use App\Models\kotakab;
 use App\Models\nilai_pembobotan;
 use App\Models\pembobotan;
 use App\Models\pendaftar_rtlh;
-use App\Rules\cekkkchar;
-use App\Rules\cekkklength;
-use App\Rules\ceknikchar;
-use App\Rules\cekniklength;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -20,7 +16,9 @@ class RegisteredUserController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        DB::enableQueryLog();
     }
+
     public function index()
     {
         $datadaftar = pendaftar_rtlh::where('status', 0)->count();
@@ -34,21 +32,87 @@ class RegisteredUserController extends Controller
     // Halaman Data KK
     public function datakk(Request $data)
     {
+        $wherearraykecamatan = [];
+        $wherearraykelurahan = [];
+        $wherearraydatartlh = [];
+        $wherearraydatartlh1 = [];
+        $orwherearraydatartlh = [];        
         if (Auth::user()->level == 0) {
-            $datakotakab = kotakab::where('provinsi_id', Auth::user()->daerah_id)
-                ->get();
+            if (count($data->all()) > 1) {
+                if ($data->kotakab == 'all') {
+                    $wherearraykecamatan += [
+                        'kotakabs.provinsi_id' => Auth::user()->daerah_id,
+                    ];
+                    $wherearraykelurahan += [
+                        'kotakabs.provinsi_id' => Auth::user()->daerah_id,
+                    ];
+                    $wherearraydatartlh += [
+                        'provinsis.id' => Auth::user()->daerah_id
+                    ];
+                } else {
+                    $wherearraykecamatan += [
+                        'kotakabs.provinsi_id' => Auth::user()->daerah_id,
+                        'kecamatans.kotakab_id' => $data->kotakab
+                    ];
+                    $wherearraykelurahan += [
+                        'kotakabs.provinsi_id' => Auth::user()->daerah_id,
+                        'kecamatans.kotakab_id' => $data->kotakab
+                    ];
+                    $wherearraydatartlh += [
+                        'provinsis.id' => Auth::user()->daerah_id,
+                        'kecamatans.kotakab_id' => $data->kotakab
+                    ];
+                }
+                if ($data->kecamatan == 'all') {
+                } else {
+                    $wherearraykelurahan += [
+                        'kelurahans.kecamatan_id' => $data->kecamatan
+                    ];
+                    $wherearraydatartlh += [
+                        'kelurahans.kecamatan_id' => $data->kecamatan
+                    ];
+                }
+                if ($data->kelurahan == 'all') {
+                } else {
+                    $wherearraydatartlh += [
+                        'kelurahans.id' => $data->kelurahan
+                    ];
+                }
+                if ($data->pencarian == '' || $data->pencarian == null) {
+                } else {
+                    $wherearraydatartlh1 += [
+                        ['pendaftar_rtlhs.nama', 'LIKE', '%' . $data->pencarian . '%'],
+                    ];
+                    $orwherearraydatartlh += [
+                        ['pendaftar_rtlhs.no_kk', 'LIKE', '%' . $data->pencarian . '%'],
+                        ['pendaftar_rtlhs.nik', 'LIKE', '%' . $data->pencarian . '%'],
+                    ];
+                }
+            } else {
+                $wherearraykecamatan += [
+                    'kotakabs.provinsi_id' => Auth::user()->daerah_id,
+                ];
+                $wherearraykelurahan += [
+                    'kotakabs.provinsi_id' => Auth::user()->daerah_id,
+                ];
+                $wherearraydatartlh += [
+                    'provinsis.id' => Auth::user()->daerah_id,
+                ];
+            }
+            $datakotakab = kotakab::where([
+                'provinsi_id' => Auth::user()->daerah_id
+            ])->get();
             $datakecamatan = DB::table('kecamatans')
                 ->join('kotakabs', 'kecamatans.kotakab_id', '=', 'kotakabs.id')
-                ->where('kotakabs.provinsi_id', Auth::user()->daerah_id)
+                ->where($wherearraykecamatan)
                 ->select('kecamatans.*')
                 ->get();
             $datakelurahan = DB::table('kelurahans')
                 ->join('kecamatans', 'kelurahans.kecamatan_id', '=', 'kecamatans.id')
                 ->join('kotakabs', 'kecamatans.kotakab_id', '=', 'kotakabs.id')
-                ->where('kotakabs.provinsi_id', Auth::user()->daerah_id)
+                ->where($wherearraykelurahan)
                 ->select('kelurahans.*')
                 ->get();
-
             $data = DB::table('pendaftar_rtlhs')
                 ->join('kelurahans', 'pendaftar_rtlhs.kelurahan_id', '=', 'kelurahans.id')
                 ->join('kecamatans', 'kelurahans.kecamatan_id', '=', 'kecamatans.id')
@@ -62,7 +126,10 @@ class RegisteredUserController extends Controller
                     'kecamatans.name as kecamatan',
                     'kotakabs.name as kotakab',
                 ])
-                ->where('provinsis.id', Auth::user()->daerah_id)
+                ->orderBy('status')
+                ->where($wherearraydatartlh)
+                ->where($wherearraydatartlh1)
+                ->orWhere($orwherearraydatartlh)
                 ->paginate(10);
             $datas = [
                 'data' => $data,

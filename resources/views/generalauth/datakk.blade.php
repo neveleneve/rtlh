@@ -35,43 +35,55 @@
                 </h2>
                 <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                     <div class="accordion-body border">
-                        <div class="row">
-                            <div class="col-12 col-lg-3 mb-3">
-                                @if (Auth::user()->level == 0)
-                                <label for="pencarian">Pencarian</label>
+                        <form action="" method="get">
+                            <div class="row">
+                                <div class="col-12 col-lg-3 mb-3">
+                                    @if (Auth::user()->level == 0)
+                                    <label for="pencarian">Pencarian</label>
+                                    @endif
+                                    <input id="pencarian" value="{{ isset($_GET['pencarian']) ? $_GET['pencarian'] : null }}" name="pencarian" type="text" class="form-control form-control-sm" placeholder="Pencarian...">
+                                </div>
+                                @if(Auth::user()->level == 0)
+                                <div class="col-4 col-lg-3 mb-3">
+                                    <label for="kotakab">Kota/Kabupaten</label>
+                                    <select id="kotakab" name="kotakab" class="form-control form-control-sm">
+                                        <option value="all" {{ isset($_GET['kotakab']) ? ($_GET['kotakab']=='all' ? 'selected' : null) : 'selected' }}>Semua</option>
+                                        @foreach ($datakotakab as $item)
+                                        <option value="{{ $item->id }}" {{ isset($_GET['kotakab']) ? ($_GET['kotakab']==$item->id ? 'selected' : null) : null }}>{{ ucwords(strtolower($item->name)) }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-4 col-lg-3 mb-3">
+                                    <label for="kecamatan">Kecamatan</label>
+                                    <select id="kecamatan" name="kecamatan" class="form-control form-control-sm">
+                                        <option value="all" {{ isset($_GET['kecamatan']) ? ($_GET['kecamatan']=='all' ? 'selected' : null) : 'selected' }}>Semua</option>
+                                        @foreach ($datakecamatan as $item)
+                                        <option value="{{ $item->id }}" {{ isset($_GET['kecamatan']) ? ($_GET['kecamatan']==$item->id ? 'selected' : null) : null }}>{{ ucwords(strtolower($item->name)) }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-4 col-lg-3 mb-3">
+                                    <label for="kelurahan">Kelurahan</label>
+                                    <select id="kelurahan" name="kelurahan" class="form-control form-control-sm">
+                                        <option value="all" {{ isset($_GET['kelurahan']) ? ($_GET['kelurahan']=='all' ? 'selected' : null) : 'selected' }}>Semua</option>
+                                        @foreach ($datakelurahan as $item)
+                                        <option value="{{ $item->id }}" {{ isset($_GET['kelurahan']) ? ($_GET['kelurahan']==$item->id ? 'selected' : null) : null }}>{{ ucwords(strtolower($item->name)) }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                                 @endif
-                                <input id="pencarian" type="text" class="form-control form-control-sm" placeholder="Pencarian...">
                             </div>
-                            @if(Auth::user()->level == 0)
-                            <div class="col-4 col-lg-3 mb-3">
-                                <label for="kotakab">Kota/Kabupaten</label>
-                                <select id="kotakab" class="form-control form-control-sm">
-                                    <option value="all" selected>Semua</option>
-                                    @foreach ($datakotakab as $item)
-                                    <option value="{{ $item->id }}">{{ ucwords(strtolower($item->name)) }}</option>
-                                    @endforeach
-                                </select>
+                            <div class="row">
+                                <div class="col-12 d-grid gap-2">
+                                    <button class="btn btn-xs btn-primary text-white" type="submit">
+                                        <i class="fa fa-search d-lg-none d-inline"></i>
+                                        <span class="d-none d-lg-inline">
+                                            Pencarian
+                                        </span>
+                                    </button>
+                                </div>
                             </div>
-                            <div class="col-4 col-lg-3 mb-3">
-                                <label for="kecamatan">Kecamatan</label>
-                                <select id="kecamatan" class="form-control form-control-sm">
-                                    <option value="all" selected>Semua</option>
-                                    @foreach ($datakecamatan as $item)
-                                    <option value="{{ $item->id }}">{{ ucwords(strtolower($item->name)) }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-4 col-lg-3 mb-3">
-                                <label for="kelurahan">Kelurahan</label>
-                                <select id="kelurahan" class="form-control form-control-sm">
-                                    <option value="all" selected>Semua</option>
-                                    @foreach ($datakelurahan as $item)
-                                    <option value="{{ $item->id }}">{{ ucwords(strtolower($item->name)) }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            @endif
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -155,18 +167,21 @@
         </div>
     </div>
     <div class="d-flex justify-content-center" id="pagination_link">
-        {{  $data->links()  }}
+        {{ $data->appends($_GET)->links() }}
     </div>
     @if ($data->links())
     <div class="row mb-3" id="pagination_info">
         <div class="col-12 text-center">
+            @if (count($data) > 0)
             <small>Menampilkan {{ (($data->currentPage() - 1) * $data->perPage()) + 1 }} - {{ $data->currentPage() == $data->lastPage() ? $data->total() : $data->currentPage() * $data->perPage() }} dari {{ $data->total() }} data</small>
+            @else
+            <small>Menampilkan 0 dari {{ $data->total() }} data</small>
+            @endif
         </div>
     </div>
     @endif
 </div>
 @if (Auth::user()->level == 1)
-
 <div class="modal fade" id="modaltambah">
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">

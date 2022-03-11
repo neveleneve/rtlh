@@ -46,11 +46,18 @@ $(document).ready(function () {
                 'kelurahan': kelurahan.val(),
             },
             success: function (datax) {
+                var parsedata = $.parseJSON(datax);
                 kecamatan.empty();
                 kecamatan.append(
                     '<option selected value=all>Semua');
-                var data = datax.replace('"', '');
-                kecamatan.append(data.replace('"', ''));
+                var datakecamatan = parsedata['kecamatan'].replace('"', '');
+                kecamatan.append(datakecamatan.replace('"', ''));
+
+                kelurahan.empty();
+                kelurahan.append(
+                    '<option selected value=all>Semua');
+                var datakelurahan = parsedata['kelurahan'].replace('"', '');
+                kelurahan.append(datakelurahan.replace('"', ''));
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 alert(xhr.status);
