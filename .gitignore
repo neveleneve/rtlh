@@ -1,8 +1,6 @@
 /node_modules
 /public/hot
 /public/storage
-/public/images/ktp/*.jpg
-/public/images/kk/*.jpg
 /storage/*.key
 /vendor
 .env
