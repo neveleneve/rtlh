@@ -89,7 +89,6 @@
             </div>
         </div>
     </div>
-
     @if ($errors->any())
     <div class="row mb-3">
         <div class="col-12">
@@ -173,9 +172,7 @@
     <div class="row mb-3" id="pagination_info">
         <div class="col-12 text-center">
             @if (count($data) > 0)
-            <small>Menampilkan {{ (($data->currentPage() - 1) * $data->perPage()) + 1 }} - {{ $data->currentPage() == $data->lastPage() ? $data->total() : $data->currentPage() * $data->perPage() }} dari {{ $data->total() }} data</small>
-            @else
-            <small>Menampilkan 0 dari {{ $data->total() }} data</small>
+            <small>Menampilkan {{ (($data->currentPage() - 1) * $data->perPage()) + 1 }} - {{ $data->currentPage() == $data->lastPage() ? $data->total() : $data->currentPage() * $data->perPage() }} dari {{ $data->total() }} data</small>            
             @endif
         </div>
     </div>
@@ -198,6 +195,9 @@
                     <input class="form-control mb-2" type="text" name="nokk" id="nokk" required>
                     <label for="gambarkk">Gambar KK<span class="text-danger">*</span></label>
                     <input class="form-control mb-2" type="file" name="gambarkk" id="gambarkk" required>
+                    <small>* Gambar harus memiliki ukuran kurang dari 2 MB</small>
+                    <br>
+                    <small>** Format gambar yang diterima adalah jpeg, jpg, dan png.</small>
                     <div class="row justify-content-center">
                         <div class="col-md-12 text-center mb-2">
                             <img id="preview-image-kk" src="{{ asset('images/template/not-found.png') }}" style="max-height: 250px;">
@@ -209,6 +209,9 @@
                     <input class="form-control mb-2" type="text" name="nik" id="nik" required>
                     <label for="gambarnik">Gambar KTP Kepala Keluarga<span class="text-danger">*</span></label>
                     <input class="form-control mb-2" type="file" name="gambarnik" id="gambarnik" required>
+                    <small>* Gambar harus memiliki ukuran kurang dari 2 MB</small>
+                    <br>
+                    <small>** Format gambar yang diterima adalah jpeg, jpg, dan png.</small>
                     <div class="row justify-content-center">
                         <div class="col-md-12 text-center mb-2">
                             <img id="preview-image-ktp" src="{{ asset('images/template/not-found.png') }}" style="max-height: 250px;">

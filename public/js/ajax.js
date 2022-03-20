@@ -33,7 +33,6 @@ $(document).ready(function () {
             },
         });
     });
-
     kotakab.on('change', function (e) {
         e.preventDefault();
         var id = $(this).val();

@@ -36,6 +36,18 @@ class AdminLapanganController extends Controller
             'alamat' => [
                 'required',
             ],
+            'gambarkk' => [
+                'required',
+                'image',
+                'mimes:jpeg,png,jpg',
+                'max:2048',
+            ],
+            'gambarnik' => [
+                'required',
+                'image',
+                'mimes:jpeg,png,jpg',
+                'max:2048',
+            ],
         ]);
         $nilai = $data->nilai;
         $idbobot = array_keys($nilai);
