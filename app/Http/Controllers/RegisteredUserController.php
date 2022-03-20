@@ -232,6 +232,20 @@ class RegisteredUserController extends Controller
     {
         return view('generalauth.setting');
     }
+
+    public function updatesetting(Request $data)
+    {
+        if ($data->old_password ==  null  || $data->password == null || $data->password_confirmation == null) {
+            echo 'kosong';
+        } else {
+            $data->validate([
+                'password'=> 'required|confirmed|min:8'
+            ]);
+            echo 'ada';
+            # code...
+        }
+    }
+
     public function bobot()
     {
         $data = pembobotan::get();

@@ -13,7 +13,9 @@ Auth::routes([
 
 // general auth route
 Route::get('/dashboard', [App\Http\Controllers\RegisteredUserController::class, 'index'])->name('dashboard');
+
 Route::get('/setting', [App\Http\Controllers\RegisteredUserController::class, 'setting'])->name('setting');
+Route::post('/setting/update', [App\Http\Controllers\RegisteredUserController::class, 'updatesetting'])->name('updatesetting');
 
 Route::get('/bobot', [App\Http\Controllers\RegisteredUserController::class, 'bobot'])->name('bobot');
 
