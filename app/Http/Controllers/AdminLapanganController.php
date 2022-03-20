@@ -73,6 +73,17 @@ class AdminLapanganController extends Controller
             $pemberitahuan = 'Data berhasil diinput!';
             $warna = 'success';
         }
+
+        $filekk = $data->file('gambarkk');
+        $namafilekk = $data->nokk . '.jpg';
+        $destinationkk = public_path('images/kk');
+        $filekk->move($destinationkk, $namafilekk);
+
+        $filektp = $data->file('gambarnik');
+        $namafilektp = $data->nik . '.jpg';
+        $destinationktp = public_path('images/ktp');
+        $filektp->move($destinationktp, $namafilektp);
+        
         return redirect(route('datakk'))
             ->with([
                 'pemberitahuan' => $pemberitahuan,
