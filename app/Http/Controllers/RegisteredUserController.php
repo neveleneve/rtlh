@@ -35,8 +35,8 @@ class RegisteredUserController extends Controller
         $wherearraykecamatan = [];
         $wherearraykelurahan = [];
         $wherearraydatartlh = [];
-        $wherearraydatartlh1 = [];
-        $orwherearraydatartlh = [];        
+        $wherearraydatartlhsearch = [];
+        $orwherearraydatartlhsearch = [];        
         if (Auth::user()->level == 0) {
             if (count($data->all()) > 1) {
                 if ($data->kotakab == 'all') {
@@ -80,10 +80,10 @@ class RegisteredUserController extends Controller
                 }
                 if ($data->pencarian == '' || $data->pencarian == null) {
                 } else {
-                    $wherearraydatartlh1 += [
+                    $wherearraydatartlhsearch += [
                         ['pendaftar_rtlhs.nama', 'LIKE', '%' . $data->pencarian . '%'],
                     ];
-                    $orwherearraydatartlh += [
+                    $orwherearraydatartlhsearch += [
                         ['pendaftar_rtlhs.no_kk', 'LIKE', '%' . $data->pencarian . '%'],
                         ['pendaftar_rtlhs.nik', 'LIKE', '%' . $data->pencarian . '%'],
                     ];
@@ -128,8 +128,8 @@ class RegisteredUserController extends Controller
                 ])
                 ->orderBy('status')
                 ->where($wherearraydatartlh)
-                ->where($wherearraydatartlh1)
-                ->orWhere($orwherearraydatartlh)
+                ->where($wherearraydatartlhsearch)
+                ->orWhere($orwherearraydatartlhsearch)
                 ->paginate(10);
             $datas = [
                 'data' => $data,
@@ -167,6 +167,7 @@ class RegisteredUserController extends Controller
                 'data_daerah' => $datadaerah,
             ];
         }
+        // dd($data);
         return view('generalauth.datakk', $datas);
     }
 
