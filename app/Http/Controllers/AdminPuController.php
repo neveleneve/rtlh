@@ -7,7 +7,6 @@ use App\Models\nilai_pembobotan;
 use App\Models\nilai_pengaju;
 use App\Models\pembobotan;
 use App\Models\pendaftar_rtlh;
-use App\Models\penilaian;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
