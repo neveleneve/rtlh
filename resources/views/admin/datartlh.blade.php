@@ -26,18 +26,25 @@
                             <th>No. KK</th>
                             <th>Nama Kepala Keluargas</th>
                             <th>Alamat</th>
+                            <th>Status</th>
                             <th>Nilai</th>
                         </tr>
                     </thead>
                     <tbody class="align-middle">
                         @forelse ($data as $item)
                         <tr>
-                            <td>{{ $no++ }}</td>
+                            <td>{{ $no }}</td>
                             <td>{{ $item->no_kk }}</td>
                             <td>{{ $item->nama }}</td>
                             <td>{{ ucwords($item->alamat) }}</td>
+                            <td>
+                                
+                            </td>
                             <td>{{ $item->nilai_wp }}</td>
                         </tr>
+                        @php
+                            $no++
+                        @endphp
                         @empty
                         <tr>
                             <td colspan="5">

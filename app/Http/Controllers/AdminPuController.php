@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Hash;
 
 class AdminPuController extends Controller
 {
-    
+
     public function __construct()
     {
         $this->middleware(['auth', 'adminpupr']);
@@ -59,6 +59,7 @@ class AdminPuController extends Controller
 
     public function dataverifikasi()
     {
+        // not used on
         return view('admin.dataverifikasi');
     }
 
@@ -70,7 +71,7 @@ class AdminPuController extends Controller
             ->join('pembobotans', 'penilaians.id_pembobotan', '=', 'pembobotans.id')
             ->join('nilai_pembobotans', 'penilaians.id_pembobotan', '=', 'nilai_pembobotans.id_pembobotan')
             ->where([
-                'penilaians.no_kk' => $id                
+                'penilaians.no_kk' => $id
             ])
             ->whereRaw('nilai_pembobotans.value = penilaians.nilai')
             ->select([
