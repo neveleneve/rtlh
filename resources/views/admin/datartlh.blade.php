@@ -11,13 +11,22 @@
             @include('layouts.nav')
         </div>
     </div>
-    <div class="row mb-3">
-        <div class="col-3">
+    <div class="row">
+        <div class="col-12 col-lg-3">
             <input type="text" class="form-control form-control-sm" placeholder="Pencarian...">
+        </div>
+        <div class="col-0 col-lg-6">
+
+        </div>
+        <div class="col-12 col-lg-3 d-grid gap-2">
+            <a class="btn btn-xs btn-dark float-end" target="__blank" href="{{ route('cetakdatartlh') }}">
+                Cetak Data RTLH
+            </a>
         </div>
     </div>
     <div class="row mb-3">
         <div class="col-12">
+            * Data 50 penerima dengan hasil penilaian tertinggi dianggap lolos
             <div class="table-responsive">
                 <table class="table table-hover border text-center">
                     <thead class="table-dark">
@@ -33,18 +42,19 @@
                     <tbody class="align-middle">
                         @forelse ($data as $item)
                         <tr>
-                            <td>{{ $no }}</td>
+                            <td>{{ $no++ }}</td>
                             <td>{{ $item->no_kk }}</td>
                             <td>{{ $item->nama }}</td>
                             <td>{{ ucwords($item->alamat) }}</td>
                             <td>
-                                
+                                @if ($loop->index+1 <= 50)
+                                    Lolos
+                                @else
+                                    Tidak Lolos
+                                @endif
                             </td>
                             <td>{{ $item->nilai_wp }}</td>
                         </tr>
-                        @php
-                            $no++
-                        @endphp
                         @empty
                         <tr>
                             <td colspan="5">

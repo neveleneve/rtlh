@@ -8,6 +8,7 @@ use App\Models\nilai_pengaju;
 use App\Models\pembobotan;
 use App\Models\pendaftar_rtlh;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -15,7 +16,6 @@ use Illuminate\Support\Facades\Hash;
 
 class AdminPuController extends Controller
 {
-
     public function __construct()
     {
         $this->middleware(['auth', 'adminpupr']);
@@ -50,11 +50,17 @@ class AdminPuController extends Controller
             ->join('nilai_pengajus', 'pendaftar_rtlhs.no_kk', '=', 'nilai_pengajus.no_kk')
             ->orderBy('nilai_wp', 'desc')
             ->get();
-        // dd($data);
         return view('admin.datartlh', [
             'data' => $data,
             'no' => 1,
         ]);
+    }
+
+    public function cetakdatartlh()
+    {
+        $data = ['title' => 'Welcome to belajarphp.net'];
+
+        return PDF::loadView('admin.cetak-rtlh', $data)->stream();
     }
 
     public function dataverifikasi()
