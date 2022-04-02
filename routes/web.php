@@ -26,7 +26,7 @@ Route::get('/data-kk/view/{id}', [App\Http\Controllers\RegisteredUserController:
 Route::get('/bobot/view/{id}', [App\Http\Controllers\AdminPuController::class, 'viewbobot'])->name('viewbobot');
 
 Route::get('/data-rtlh', [App\Http\Controllers\AdminPuController::class, 'datartlh'])->name('datartlh');
-Route::get('/cetak/data-rtlh', [App\Http\Controllers\AdminPuController::class, 'cetakdatartlh'])->name('cetakdatartlh');
+Route::get('/cetak/data-rtlh/pdf', [App\Http\Controllers\AdminPuController::class, 'cetakdatartlh'])->name('cetakdatartlhpdf');
 
 Route::get('/data-kk/verifikasi/{id}', [App\Http\Controllers\AdminPuController::class, 'verifdatakk'])->name('verifdatakk');
 Route::post('/data-kk/verifikasi', [App\Http\Controllers\AdminPuController::class, 'verifikasi'])->name('verifikasi');

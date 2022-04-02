@@ -40,12 +40,14 @@
             <div class="row">
                 <div class="col-12 col-lg-6">
                     <label for="fotonik">Gambar Kartu Keluarga</label>
+                    <br>
                     <a href="{{ asset('images/kk/'.$data[0]['no_kk'].'.jpg') }}" data-toggle="lightbox">
                         <img src="{{ asset('images/kk/'.$data[0]['no_kk'].'.jpg') }}" class="img-fluid img-thumbnail">
                     </a>
                 </div>
                 <div class="col-12 col-lg-6 mb-3">
                     <label for="fotonik">Gambar NIK Kepala Keluarga</label>
+                    <br>
                     <a href="{{ asset('images/ktp/' . $data[0]['nik'] . '.jpg') }}" id="fotonik" data-toggle="lightbox">
                         <img src="{{ asset('images/ktp/' . $data[0]['nik'] . '.jpg') }}" class="img-fluid img-thumbnail">
                     </a>

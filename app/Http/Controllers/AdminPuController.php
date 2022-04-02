@@ -58,9 +58,16 @@ class AdminPuController extends Controller
 
     public function cetakdatartlh()
     {
-        $data = ['title' => 'Welcome to belajarphp.net'];
+        $data =  DB::table('pendaftar_rtlhs')
+            ->join('nilai_pengajus', 'pendaftar_rtlhs.no_kk', '=', 'nilai_pengajus.no_kk')
+            ->orderBy('nilai_wp', 'desc')
+            ->get()
+            ->all();
+        // dd($data);
 
-        return PDF::loadView('admin.cetak-rtlh', $data)->stream();
+        return PDF::loadView('admin.cetak-rtlh', [
+            'data' => $data
+        ])->setPaper('a4', 'landscape')->stream();
     }
 
     public function dataverifikasi()

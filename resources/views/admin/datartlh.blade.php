@@ -12,17 +12,19 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-12 col-lg-3">
+        <div class="col-12 col-lg-3 mb-3 mb-lg-0">
             <input type="text" class="form-control form-control-sm" placeholder="Pencarian...">
         </div>
         <div class="col-0 col-lg-6">
 
         </div>
+        @if (count($data) > 0)
         <div class="col-12 col-lg-3 d-grid gap-2">
-            <a class="btn btn-xs btn-dark float-end" target="__blank" href="{{ route('cetakdatartlh') }}">
+            <a class="btn btn-xs btn-dark float-end" target="__blank" href="{{ route('cetakdatartlhpdf') }}">
                 Cetak Data RTLH
             </a>
         </div>
+        @endif
     </div>
     <div class="row mb-3">
         <div class="col-12">
@@ -33,10 +35,10 @@
                         <tr>
                             <th>No.</th>
                             <th>No. KK</th>
-                            <th>Nama Kepala Keluargas</th>
+                            <th>Nama Kepala Keluarga</th>
                             <th>Alamat</th>
-                            <th>Status</th>
                             <th>Nilai</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
                     <tbody class="align-middle">
@@ -46,18 +48,13 @@
                             <td>{{ $item->no_kk }}</td>
                             <td>{{ $item->nama }}</td>
                             <td>{{ ucwords($item->alamat) }}</td>
-                            <td>
-                                @if ($loop->index+1 <= 50)
-                                    Lolos
-                                @else
-                                    Tidak Lolos
-                                @endif
-                            </td>
                             <td>{{ $item->nilai_wp }}</td>
+                            <td>
+                                {{ $loop->index+1 <= 50 ? 'Lolos' : 'Tidak Lolos' }} </td>
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="5">
+                            <td colspan="6">
                                 <h4 class="text-center">Data Kosong</h4>
                             </td>
                         </tr>

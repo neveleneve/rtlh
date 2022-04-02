@@ -15,7 +15,7 @@
         <div class="col-0 col-lg-9">
         </div>
         <div class="col-12 col-lg-3 d-grid gap-2">
-            <a class="btn btn-xs btn-primary float-end" data-bs-toggle="modal" data-bs-target="#modaltambah">
+            <a class="btn btn-xs btn-dark float-end" data-bs-toggle="modal" data-bs-target="#modaltambah">
                 <i class="fa fa-plus d-lg-none d-inline"></i>
                 <span class="d-none d-lg-inline">
                     Tambah
