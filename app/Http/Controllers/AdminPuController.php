@@ -56,7 +56,7 @@ class AdminPuController extends Controller
         ]);
     }
 
-    public function cetakdatartlh()
+    public function cetakdatartlhpdf()
     {
         $data =  DB::table('pendaftar_rtlhs')
             ->join('nilai_pengajus', 'pendaftar_rtlhs.no_kk', '=', 'nilai_pengajus.no_kk')
