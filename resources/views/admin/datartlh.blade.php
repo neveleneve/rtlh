@@ -20,7 +20,7 @@
         </div>
         @if (count($data) > 0)
         <div class="col-12 col-lg-3 d-grid gap-2">
-            <a class="btn btn-xs btn-dark float-end" target="__blank" href="{{ route('cetakdatartlhpdf') }}">
+            <a class="btn btn-xs btn-dark float-end" type="button" href="#" data-bs-toggle="modal" data-bs-target="#modalcetak">
                 Cetak Data RTLH
             </a>
         </div>
@@ -65,4 +65,26 @@
         </div>
     </div>
 </div>
+@if (count($data)>0)
+<div class="modal fade" id="modalcetak" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Pilih Jenis Cetak</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12 d-grid gap-2">
+                        <a href="{{ route('cetakdatartlhpdf') }}" target="__blank" class="btn btn-dark">Format PDF</a>
+                    </div>
+                    <div class="col-12 d-grid gap-2">
+                        <a href="{{ route('cetakdatartlhexcel') }}" target="__blank" class="btn btn-dark">Format Excel</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endif
 @endsection

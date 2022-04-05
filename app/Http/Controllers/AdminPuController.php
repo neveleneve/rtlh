@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\RTLHExport;
 use App\Models\kotakab;
 use App\Models\nilai_pembobotan;
 use App\Models\nilai_pengaju;
@@ -13,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AdminPuController extends Controller
 {
@@ -64,10 +66,14 @@ class AdminPuController extends Controller
             ->get()
             ->all();
         // dd($data);
-
         return PDF::loadView('admin.cetak-rtlh', [
             'data' => $data
         ])->setPaper('a4', 'landscape')->stream();
+    }
+
+    public function cetakdatartlhexcel()
+    {
+        return Excel::download(new RTLHExport, 'Daftar Penerima RTLH.xlsx');
     }
 
     public function dataverifikasi()
