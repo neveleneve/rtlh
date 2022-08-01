@@ -109,5 +109,32 @@
                 </div>
             </div>
         </div>
+        <div class="row mb-3">
+            @for ($i = 0; $i < count($totalrtlh); $i++)
+                <div class="col-12 col-lg-3 mt-3">
+                    <div class="card">
+                        <div class="card-body p-3">
+                            <div class="row">
+                                <div class="col-8">
+                                    <div class="numbers">
+                                        <p class="text-sm mb-0 text-uppercase font-weight-bold">TA.
+                                            {{ $totalrtlh[$i]['tahun'] }}</p>
+                                        <h5 class="font-weight-bolder">
+                                            {{ $totalrtlh[$i]['jumlah'] }} KK
+                                        </h5>
+                                    </div>
+                                </div>
+                                <div class="col-4 text-end">
+                                    <div
+                                        class="icon icon-shape bg-gradient-primary shadow-primary text-center rounded-circle">
+                                        <i class="fa fa-list text-lg opacity-10" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endfor
+        </div>
     </div>
 @endsection

@@ -23,9 +23,15 @@ class RegisteredUserController extends Controller
     {
         $datadaftar = pendaftar_rtlh::where('status', 0)->count();
         $dataterverifikasi = pendaftar_rtlh::where('status', 1)->count();
+        $datatotalrtlh = [];
+        for ($i = 0; $i < 4; $i++) {
+            $datatotalrtlh[$i]['jumlah'] = pendaftar_rtlh::where('tahun_anggaran', date('Y') + $i)->count();
+            $datatotalrtlh[$i]['tahun'] = date('Y') + $i;
+        }
         return view('generalauth.dashboard', [
             'terdaftar' => $datadaftar,
             'terverifikasi' => $dataterverifikasi,
+            'totalrtlh' => $datatotalrtlh,
         ]);
     }
 
@@ -98,7 +104,7 @@ class RegisteredUserController extends Controller
                             'kecamatans.name as kecamatan',
                             'kotakabs.name as kotakab',
                         ])
-                        ->orderBy('pendaftar_rtlhs.tahun_anggaran','desc')
+                        ->orderBy('pendaftar_rtlhs.tahun_anggaran', 'desc')
                         ->orderBy('status')
                         ->where($wherearraydatartlh)
                         ->paginate(10);
@@ -118,7 +124,7 @@ class RegisteredUserController extends Controller
                             'kecamatans.name as kecamatan',
                             'kotakabs.name as kotakab',
                         ])
-                        ->orderBy('pendaftar_rtlhs.tahun_anggaran','desc')
+                        ->orderBy('pendaftar_rtlhs.tahun_anggaran', 'desc')
                         ->orderBy('status')
                         ->where($wherearraydatartlh)
                         ->whereRaw($wherearraydatartlhsearch)
@@ -148,7 +154,7 @@ class RegisteredUserController extends Controller
                         'kecamatans.name as kecamatan',
                         'kotakabs.name as kotakab',
                     ])
-                    ->orderBy('pendaftar_rtlhs.tahun_anggaran','desc')
+                    ->orderBy('pendaftar_rtlhs.tahun_anggaran', 'desc')
                     ->orderBy('status')
                     ->where($wherearraydatartlh)
                     ->paginate(10);
@@ -199,7 +205,7 @@ class RegisteredUserController extends Controller
                         ])
                         ->where('kotakabs.id', Auth::user()->daerah_id)
                         ->where($wherearraydatartlh)
-                        ->orderBy('pendaftar_rtlhs.tahun_anggaran','desc')
+                        ->orderBy('pendaftar_rtlhs.tahun_anggaran', 'desc')
                         ->paginate(10);
                 } else {
                     $wherearraydatartlhsearch = DB::raw('(pendaftar_rtlhs.nama like "%' . $datas->pencarian . '%" or pendaftar_rtlhs.no_kk like "%' . $datas->pencarian . '%" or pendaftar_rtlhs.nik like "%' . $datas->pencarian . '%")');
@@ -220,7 +226,7 @@ class RegisteredUserController extends Controller
                         ->where('kotakabs.id', Auth::user()->daerah_id)
                         ->where($wherearraydatartlh)
                         ->whereRaw($wherearraydatartlhsearch)
-                        ->orderBy('pendaftar_rtlhs.tahun_anggaran','desc')
+                        ->orderBy('pendaftar_rtlhs.tahun_anggaran', 'desc')
                         ->paginate(10);
                     // dd($data);
                 }
