@@ -30,15 +30,15 @@ class RegisteredUserController extends Controller
     }
 
     // Halaman Data KK
-    public function datakk(Request $data)
+    public function datakk(Request $datas)
     {
         $wherearraykecamatan = [];
         $wherearraykelurahan = [];
         $wherearraydatartlh = [];
         $wherearraydatartlhsearch = null;
         if (Auth::user()->level == 0) {
-            if (count($data->all()) > 1) {
-                if ($data->kotakab == 'all') {
+            if (count($datas->all()) > 1) {
+                if ($datas->kotakab == 'all') {
                     $wherearraykecamatan += [
                         'kotakabs.provinsi_id' => Auth::user()->daerah_id,
                     ];
@@ -51,33 +51,39 @@ class RegisteredUserController extends Controller
                 } else {
                     $wherearraykecamatan += [
                         'kotakabs.provinsi_id' => Auth::user()->daerah_id,
-                        'kecamatans.kotakab_id' => $data->kotakab
+                        'kecamatans.kotakab_id' => $datas->kotakab
                     ];
                     $wherearraykelurahan += [
                         'kotakabs.provinsi_id' => Auth::user()->daerah_id,
-                        'kecamatans.kotakab_id' => $data->kotakab
+                        'kecamatans.kotakab_id' => $datas->kotakab
                     ];
                     $wherearraydatartlh += [
                         'provinsis.id' => Auth::user()->daerah_id,
-                        'kecamatans.kotakab_id' => $data->kotakab
+                        'kecamatans.kotakab_id' => $datas->kotakab
                     ];
                 }
-                if ($data->kecamatan == 'all') {
+                if ($datas->kecamatan == 'all') {
                 } else {
                     $wherearraykelurahan += [
-                        'kelurahans.kecamatan_id' => $data->kecamatan
+                        'kelurahans.kecamatan_id' => $datas->kecamatan
                     ];
                     $wherearraydatartlh += [
-                        'kelurahans.kecamatan_id' => $data->kecamatan
+                        'kelurahans.kecamatan_id' => $datas->kecamatan
                     ];
                 }
-                if ($data->kelurahan == 'all') {
+                if ($datas->kelurahan == 'all') {
                 } else {
                     $wherearraydatartlh += [
-                        'kelurahans.id' => $data->kelurahan
+                        'kelurahans.id' => $datas->kelurahan
                     ];
                 }
-                if ($data->pencarian == '' || $data->pencarian == null) {
+                if ($datas->tahun == 'all') {
+                } else {
+                    $wherearraydatartlh += [
+                        'pendaftar_rtlhs.tahun_anggaran' => $datas->tahun
+                    ];
+                }
+                if ($datas->pencarian == '' || $datas->pencarian == null) {
                     $data = DB::table('pendaftar_rtlhs')
                         ->join('kelurahans', 'pendaftar_rtlhs.kelurahan_id', '=', 'kelurahans.id')
                         ->join('kecamatans', 'kelurahans.kecamatan_id', '=', 'kecamatans.id')
@@ -87,15 +93,17 @@ class RegisteredUserController extends Controller
                             'pendaftar_rtlhs.no_kk',
                             'pendaftar_rtlhs.nama',
                             'pendaftar_rtlhs.status',
+                            'pendaftar_rtlhs.tahun_anggaran',
                             'kelurahans.name as kelurahan',
                             'kecamatans.name as kecamatan',
                             'kotakabs.name as kotakab',
                         ])
+                        ->orderBy('pendaftar_rtlhs.tahun_anggaran','desc')
                         ->orderBy('status')
                         ->where($wherearraydatartlh)
                         ->paginate(10);
                 } else {
-                    $wherearraydatartlhsearch = DB::raw('(pendaftar_rtlhs.nama like "%' . $data->pencarian . '%" or pendaftar_rtlhs.no_kk like "%' . $data->pencarian . '%" or pendaftar_rtlhs.nik like "%' . $data->pencarian . '%")');
+                    $wherearraydatartlhsearch = DB::raw('(pendaftar_rtlhs.nama like "%' . $datas->pencarian . '%" or pendaftar_rtlhs.no_kk like "%' . $datas->pencarian . '%" or pendaftar_rtlhs.nik like "%' . $datas->pencarian . '%")');
                     $data = DB::table('pendaftar_rtlhs')
                         ->join('kelurahans', 'pendaftar_rtlhs.kelurahan_id', '=', 'kelurahans.id')
                         ->join('kecamatans', 'kelurahans.kecamatan_id', '=', 'kecamatans.id')
@@ -105,10 +113,12 @@ class RegisteredUserController extends Controller
                             'pendaftar_rtlhs.no_kk',
                             'pendaftar_rtlhs.nama',
                             'pendaftar_rtlhs.status',
+                            'pendaftar_rtlhs.tahun_anggaran',
                             'kelurahans.name as kelurahan',
                             'kecamatans.name as kecamatan',
                             'kotakabs.name as kotakab',
                         ])
+                        ->orderBy('pendaftar_rtlhs.tahun_anggaran','desc')
                         ->orderBy('status')
                         ->where($wherearraydatartlh)
                         ->whereRaw($wherearraydatartlhsearch)
@@ -133,10 +143,12 @@ class RegisteredUserController extends Controller
                         'pendaftar_rtlhs.no_kk',
                         'pendaftar_rtlhs.nama',
                         'pendaftar_rtlhs.status',
+                        'pendaftar_rtlhs.tahun_anggaran',
                         'kelurahans.name as kelurahan',
                         'kecamatans.name as kecamatan',
                         'kotakabs.name as kotakab',
                     ])
+                    ->orderBy('pendaftar_rtlhs.tahun_anggaran','desc')
                     ->orderBy('status')
                     ->where($wherearraydatartlh)
                     ->paginate(10);
@@ -162,24 +174,57 @@ class RegisteredUserController extends Controller
                 'datakelurahan' => $datakelurahan,
             ];
         } elseif (Auth::user()->level == 1) {
-            if ($data->pencarian == '' || $data->pencarian == null) {
-                $data = DB::table('pendaftar_rtlhs')
-                    ->join('kelurahans', 'pendaftar_rtlhs.kelurahan_id', '=', 'kelurahans.id')
-                    ->join('kecamatans', 'kelurahans.kecamatan_id', '=', 'kecamatans.id')
-                    ->join('kotakabs', 'kecamatans.kotakab_id', '=', 'kotakabs.id')
-                    ->join('provinsis', 'kotakabs.provinsi_id', '=', 'provinsis.id')
-                    ->select([
-                        'pendaftar_rtlhs.no_kk',
-                        'pendaftar_rtlhs.nama',
-                        'pendaftar_rtlhs.status',
-                        'kelurahans.name as kelurahan',
-                        'kecamatans.name as kecamatan',
-                        'kotakabs.name as kotakab',
-                    ])
-                    ->where('kotakabs.id', Auth::user()->daerah_id)
-                    ->paginate(10);
+            // dd(count($data->all()));
+            if (count($datas->all()) > 1) {
+                if ($datas->tahun == 'all') {
+                } else {
+                    $wherearraydatartlh += [
+                        'pendaftar_rtlhs.tahun_anggaran' => $datas->tahun
+                    ];
+                }
+                if ($datas->pencarian == '' || $datas->pencarian == null) {
+                    $data = DB::table('pendaftar_rtlhs')
+                        ->join('kelurahans', 'pendaftar_rtlhs.kelurahan_id', '=', 'kelurahans.id')
+                        ->join('kecamatans', 'kelurahans.kecamatan_id', '=', 'kecamatans.id')
+                        ->join('kotakabs', 'kecamatans.kotakab_id', '=', 'kotakabs.id')
+                        ->join('provinsis', 'kotakabs.provinsi_id', '=', 'provinsis.id')
+                        ->select([
+                            'pendaftar_rtlhs.no_kk',
+                            'pendaftar_rtlhs.nama',
+                            'pendaftar_rtlhs.status',
+                            'pendaftar_rtlhs.tahun_anggaran',
+                            'kelurahans.name as kelurahan',
+                            'kecamatans.name as kecamatan',
+                            'kotakabs.name as kotakab',
+                        ])
+                        ->where('kotakabs.id', Auth::user()->daerah_id)
+                        ->where($wherearraydatartlh)
+                        ->orderBy('pendaftar_rtlhs.tahun_anggaran','desc')
+                        ->paginate(10);
+                } else {
+                    $wherearraydatartlhsearch = DB::raw('(pendaftar_rtlhs.nama like "%' . $datas->pencarian . '%" or pendaftar_rtlhs.no_kk like "%' . $datas->pencarian . '%" or pendaftar_rtlhs.nik like "%' . $datas->pencarian . '%")');
+                    $data = DB::table('pendaftar_rtlhs')
+                        ->join('kelurahans', 'pendaftar_rtlhs.kelurahan_id', '=', 'kelurahans.id')
+                        ->join('kecamatans', 'kelurahans.kecamatan_id', '=', 'kecamatans.id')
+                        ->join('kotakabs', 'kecamatans.kotakab_id', '=', 'kotakabs.id')
+                        ->join('provinsis', 'kotakabs.provinsi_id', '=', 'provinsis.id')
+                        ->select([
+                            'pendaftar_rtlhs.no_kk',
+                            'pendaftar_rtlhs.nama',
+                            'pendaftar_rtlhs.status',
+                            'pendaftar_rtlhs.tahun_anggaran',
+                            'kelurahans.name as kelurahan',
+                            'kecamatans.name as kecamatan',
+                            'kotakabs.name as kotakab',
+                        ])
+                        ->where('kotakabs.id', Auth::user()->daerah_id)
+                        ->where($wherearraydatartlh)
+                        ->whereRaw($wherearraydatartlhsearch)
+                        ->orderBy('pendaftar_rtlhs.tahun_anggaran','desc')
+                        ->paginate(10);
+                    // dd($data);
+                }
             } else {
-                $wherearraydatartlhsearch = DB::raw('(pendaftar_rtlhs.nama like "%' . $data->pencarian . '%" or pendaftar_rtlhs.no_kk like "%' . $data->pencarian . '%" or pendaftar_rtlhs.nik like "%' . $data->pencarian . '%")');
                 $data = DB::table('pendaftar_rtlhs')
                     ->join('kelurahans', 'pendaftar_rtlhs.kelurahan_id', '=', 'kelurahans.id')
                     ->join('kecamatans', 'kelurahans.kecamatan_id', '=', 'kecamatans.id')
@@ -189,12 +234,14 @@ class RegisteredUserController extends Controller
                         'pendaftar_rtlhs.no_kk',
                         'pendaftar_rtlhs.nama',
                         'pendaftar_rtlhs.status',
+                        'pendaftar_rtlhs.tahun_anggaran',
                         'kelurahans.name as kelurahan',
                         'kecamatans.name as kecamatan',
                         'kotakabs.name as kotakab',
                     ])
                     ->where('kotakabs.id', Auth::user()->daerah_id)
-                    ->whereRaw($wherearraydatartlhsearch)
+                    // ->where($wherearraydatartlh)
+                    // ->whereRaw($wherearraydatartlhsearch)
                     ->paginate(10);
             }
             $databobot = pembobotan::get();
@@ -239,7 +286,7 @@ class RegisteredUserController extends Controller
             echo 'kosong';
         } else {
             $data->validate([
-                'password'=> 'required|confirmed|min:8'
+                'password' => 'required|confirmed|min:8'
             ]);
             echo 'ada';
             # code...

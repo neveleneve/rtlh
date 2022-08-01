@@ -16,5 +16,6 @@ class pendaftar_rtlh extends Model
         'alamat',
         'status',
         'kelurahan_id',
+        'tahun_anggaran',
     ];
 }

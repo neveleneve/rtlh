@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(UserSeeder::class);
-        // $this->call(pendaftar_rtlhseeder::class);
+        $this->call(pendaftar_rtlhseeder::class);
         $this->call(PembobotanSeeder::class);
         $this->call(NilaiPembobotanSeeder::class);
         // hidupkan seeder ini jika hanya generate 1 data saja

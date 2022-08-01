@@ -83,7 +83,7 @@ class AdminLapanganController extends Controller
         $namafilektp = $data->nik . '.jpg';
         $destinationktp = public_path('images/ktp');
         $filektp->move($destinationktp, $namafilektp);
-        
+
         return redirect(route('datakk'))
             ->with([
                 'pemberitahuan' => $pemberitahuan,

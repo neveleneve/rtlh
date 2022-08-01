@@ -416,7 +416,14 @@ class pendaftar_rtlhseeder extends Seeder
             2172040004
         ];
         $faker = Faker::create('id_ID');
-        $limit = 45;
+        $limit = 5;
+        $tahun_anggaran = [
+            '2021',
+            '2022',
+            '2023',
+            '2024',
+        ];
+
 
         for ($i = 0; $i < $limit; $i++) {
             $randomnik = substr(str_shuffle("01234567890123456789"), 0, 16);
@@ -429,6 +436,7 @@ class pendaftar_rtlhseeder extends Seeder
                 'alamat' => $faker->address,
                 'kelurahan_id' => $kelurahan[array_rand($kelurahan)],
                 'status' => 0,
+                'tahun_anggaran' => $tahun_anggaran[array_rand($tahun_anggaran)],
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
             ]);
@@ -436,7 +444,7 @@ class pendaftar_rtlhseeder extends Seeder
                 penilaian::insert([
                     'no_kk' => $randomkk,
                     'id_pembobotan' => $j,
-                    'nilai' => substr(str_shuffle("12"), 0, 1),
+                    'nilai' => $randomnilai,
                     'created_at' => date('Y-m-d H:i:s'),
                     'updated_at' => date('Y-m-d H:i:s'),
                 ]);

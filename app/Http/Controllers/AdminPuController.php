@@ -46,34 +46,78 @@ class AdminPuController extends Controller
         return number_format($s, 3, '.', ',');
     }
 
-    public function datartlh()
+    public function datartlh(Request $request)
     {
-        $data = DB::table('pendaftar_rtlhs')
-            ->join('nilai_pengajus', 'pendaftar_rtlhs.no_kk', '=', 'nilai_pengajus.no_kk')
-            ->orderBy('nilai_wp', 'desc')
-            ->get();
+        $tahun = null;
+        if (isset($request->tahun)) {
+            $tahun = $request->tahun;
+            if ($tahun == 'all') {
+                $data = DB::table('pendaftar_rtlhs')
+                    ->join('nilai_pengajus', 'pendaftar_rtlhs.no_kk', '=', 'nilai_pengajus.no_kk')
+                    ->orderBy('nilai_wp', 'desc')
+                    ->get();
+            } else {
+                $data = DB::table('pendaftar_rtlhs')
+                    ->join('nilai_pengajus', 'pendaftar_rtlhs.no_kk', '=', 'nilai_pengajus.no_kk')
+                    ->where('pendaftar_rtlhs.tahun_anggaran', $tahun)
+                    ->orderBy('nilai_wp', 'desc')
+                    ->get();
+            }
+        } else {
+            $data = DB::table('pendaftar_rtlhs')
+                ->join('nilai_pengajus', 'pendaftar_rtlhs.no_kk', '=', 'nilai_pengajus.no_kk')
+                ->where('pendaftar_rtlhs.tahun_anggaran', date('Y'))
+                ->orderBy('nilai_wp', 'desc')
+                ->get();
+        }
         return view('admin.datartlh', [
             'data' => $data,
             'no' => 1,
         ]);
     }
 
-    public function cetakdatartlhpdf()
+    public function cetakdatartlhpdf(Request $request)
     {
-        $data =  DB::table('pendaftar_rtlhs')
-            ->join('nilai_pengajus', 'pendaftar_rtlhs.no_kk', '=', 'nilai_pengajus.no_kk')
-            ->orderBy('nilai_wp', 'desc')
-            ->get()
-            ->all();
-        // dd($data);
+        $tahun = $request->tahun;
+        if (isset($request->tahun)) {
+            if ($tahun == 'all') {
+                $data =  DB::table('pendaftar_rtlhs')
+                    ->join('nilai_pengajus', 'pendaftar_rtlhs.no_kk', '=', 'nilai_pengajus.no_kk')
+                    ->orderBy('tahun_anggaran', 'desc')
+                    ->orderBy('nilai_wp', 'desc')
+                    ->get()
+                    ->all();
+            } else {
+                $data =  DB::table('pendaftar_rtlhs')
+                    ->join('nilai_pengajus', 'pendaftar_rtlhs.no_kk', '=', 'nilai_pengajus.no_kk')
+                    ->where('pendaftar_rtlhs.tahun_anggaran', $tahun)
+                    ->orderBy('tahun_anggaran', 'desc')
+                    ->orderBy('nilai_wp', 'desc')
+                    ->get()
+                    ->all();
+            }
+        } else {
+            $data =  DB::table('pendaftar_rtlhs')
+                ->join('nilai_pengajus', 'pendaftar_rtlhs.no_kk', '=', 'nilai_pengajus.no_kk')
+                ->where('pendaftar_rtlhs.tahun_anggaran', date('Y'))
+                ->orderBy('tahun_anggaran', 'desc')
+                ->orderBy('nilai_wp', 'desc')
+                ->get()
+                ->all();
+        }
         return PDF::loadView('admin.cetak-rtlh', [
-            'data' => $data
-        ])->setPaper('a4', 'landscape')->stream();
+            'data' => $data,
+            'tahun' => $tahun,
+        ])->setPaper('legal', 'landscape')->stream();
     }
 
-    public function cetakdatartlhexcel()
+    public function cetakdatartlhexcel(Request $request)
     {
-        return Excel::download(new RTLHExport, 'Daftar Penerima RTLH.xlsx');
+        if (isset($request->tahun)) {
+            return Excel::download(new RTLHExport($request->tahun), 'Daftar Penerima RTLH.xlsx');
+        } else {
+            return Excel::download(new RTLHExport(date('Y')), 'Daftar Penerima RTLH.xlsx');
+        }
     }
 
     public function dataverifikasi()
